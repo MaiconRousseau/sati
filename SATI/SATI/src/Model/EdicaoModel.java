@@ -114,7 +114,7 @@ public class ModelEdicao{
            edicao.setMessage("Falha ao Alterar a Edicao\n\t"+ e.getMessage());
         }
     
-    }
+    }/*
     public static ArrayList<Edicao>  buscarEdicao(Edicao edicao,String tipo){
         
         try {
@@ -132,6 +132,7 @@ public class ModelEdicao{
         
         
     }
+    */
 }
    /*
     public void load() throws SQLException, Exception{

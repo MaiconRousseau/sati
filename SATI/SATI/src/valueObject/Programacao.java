@@ -49,8 +49,7 @@ public class Programacao {
         this.edicao = edicao;
         this.pessoa = pessoa;
         
-    }
-  
+    }  
   
     public int getIdProgramacao() {
         return idProgramacao;
