@@ -25,7 +25,7 @@ public class ProgramacaoModel {
             MySQLConnector mCon = new MySQLConnector();
             Connection con = mCon.connect();
         
-            String query = "insert into Edicao( dataHorarioInicio,dataHorarioFim, custo,"
+            String query = "insert into Programacao( dataHoraInicio,dataHoraFim, custo,"
                 + "custoResponsavel, local, titulo, descricao, capacidade, cargaHoraria"
                 + "valorInscricao, idEdicao, idPessoa) values (?,?,?,?,?,?,?,?,?,?,?,?)";
             
