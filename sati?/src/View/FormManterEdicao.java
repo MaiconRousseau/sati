@@ -6,13 +6,6 @@
 
 package View;
 
-
-import Controller.EdicaoController;
-import Utilities.Message;
-import java.util.Date;
-import valueObject.DadosBancarios;
-import valueObject.Edicao;
-
 /**
  *
  * @author Windows7
@@ -86,28 +79,56 @@ public final class FormManterEdicao extends FormTemplate {
                 
         jBTAlterar.setText("Alterar");
         jBTAlterar.setEnabled(false);
-        jBTAlterar.addActionListener(this::jBTAlterarActionPerformed);
+        jBTAlterar.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBTAlterarActionPerformed(evt);
+            }
+        });
 
         jBTSalvar.setText("Salvar");
         jBTSalvar.setEnabled(false);
-        jBTSalvar.addActionListener(this::jBTSalvarActionPerformed);
+        jBTSalvar.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBTSalvarActionPerformed(evt);
+            }
+        });
 
         jBTExcluir.setText("Excluir");
         jBTExcluir.setEnabled(false);
-        jBTExcluir.addActionListener(this::jBTExcluirActionPerformed);
+        jBTExcluir.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBTExcluirActionPerformed(evt);
+            }
+        });
 
         jBTCadastrar.setText("Cadastrar");
-        jBTCadastrar.addActionListener(this::jBTCadastrarActionPerformed);
+        jBTCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBTCadastrarActionPerformed(evt);
+            }
+        });
 
         jBTConfirmar.setText("Confirmar");
         jBTConfirmar.setEnabled(false);
-        jBTConfirmar.addActionListener((java.awt.event.ActionEvent evt) -> {
-            jBTConfirmarActionPerformed(evt);
+        jBTConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBTConfirmarActionPerformed(evt);
+            }
         });
 
         jBTCancelar.setText("Cancelar");
         jBTCancelar.setEnabled(false);
-        jBTCancelar.addActionListener(this::jBTCancelarActionPerformed);        
+        jBTCancelar.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBTCancelarActionPerformed(evt);
+            }
+        });        
     }
     
     public void liberarComponentes()
@@ -169,60 +190,14 @@ public final class FormManterEdicao extends FormTemplate {
         super.jBTCadastrarActionPerformed(evt);
         
         liberarComponentes();
-        
-        // Por definição das regras do projeto, não tem como criar uma Edição 
-        //  com uma agenda definida. Para isso é necessário associar as programações 
-        // com uma edição já criada.
-        this.jRBSim.setEnabled(false);
-        this.jRBNao.setEnabled(false);
     }                                            
 
     @Override
     protected void jBTConfirmarActionPerformed(java.awt.event.ActionEvent evt) {                                             
         super.jBTConfirmarActionPerformed(evt);
-
-        try {
-            // Criar o objeto Dados Bancários
-            
-            String agencia = this.jTFAgencia.getText();
-            String conta = this.jTFConta.getText();
-            String tipo = (String) this.jCBTipo.getSelectedItem();
-            //int carteira = Integer.parseInt( this.jTFCarteira.getText() );
-            
-            DadosBancarios dadosBancarios = new DadosBancarios(agencia, conta, tipo, 0, -1);
-            
-            // Criar o objeto Edição
-            String tema = this.jTFTema.getText();
-            String titulo = this.jTFTitulo.getText();
-            Date dataInicio = this.jDCDataInicio.getDate();
-            Date dataFim = this.jDCDataFim.getDate();
-
-            
-            // Se a opção sim estiver ativa, o valor é verdadeiro
-            // boolean agendaDefinida = (bGAgenda.getSelection().getMnemonic() == 1);
-            
-            boolean agendaDefinida = false;
-            Date dataVencimento = this.jDCDataVencimento.getDate();
-
-            Edicao edicao = new Edicao(dataInicio, dataFim, dataVencimento, 
-                    agendaDefinida, titulo, tema,
-                    dadosBancarios, -1);
-            
-            EdicaoController.cadastrarEdicao(edicao);
-
-            if(edicao.isError()) {
-                Message.showError("O(s) seguinte(s) erro(s) ocorreu(ram):\n"
-                        + edicao.getMessage());
-            }
-            else {
-                Message.showMessage("Edição cadastrada com sucesso!");
-                bloquearComponentes(); 
-                limparComponentes();
-            }
-        }
-        catch(Exception e) {
-            Message.showError(e.getMessage()+ "?");
-        }
+        
+        bloquearComponentes();
+        limparComponentes();
     }                                            
 
     @Override
@@ -313,11 +288,7 @@ public final class FormManterEdicao extends FormTemplate {
             }
         });
 
-        jDCDataInicio.setDateFormatString("d MMM , yyyy");
-
         bGAgenda.add(jRBSim);
-        jRBSim.setMnemonic('1');
-        jRBSim.setSelected(true);
         jRBSim.setText("Sim");
         jRBSim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -326,7 +297,6 @@ public final class FormManterEdicao extends FormTemplate {
         });
 
         bGAgenda.add(jRBNao);
-        jRBNao.setMnemonic('0');
         jRBNao.setText("Não");
 
         jLabel2.setText("Data do Fim");
@@ -334,10 +304,6 @@ public final class FormManterEdicao extends FormTemplate {
         jLabel3.setText("Data do Vencimento das Inscrições");
 
         jLabel4.setText("Data do Inicío");
-
-        jDCDataFim.setDateFormatString("d MMM , yyyy");
-
-        jDCDataVencimento.setDateFormatString("d MMM , yyyy");
 
         jLabel5.setText("Agenda Confirmada");
 
@@ -478,7 +444,7 @@ public final class FormManterEdicao extends FormTemplate {
                 .addComponent(jPEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPDadosBancarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         jPManterEdicaoLayout.setVerticalGroup(
             jPManterEdicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -531,18 +497,6 @@ public final class FormManterEdicao extends FormTemplate {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FormManterEdicao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
