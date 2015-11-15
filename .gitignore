@@ -13,3 +13,5 @@ hs_err_pid*
 /SATI/nbproject/private/
 /sati[?]/nbproject/private/
 /SATI/build/
+/build/
+/nbproject/private/
