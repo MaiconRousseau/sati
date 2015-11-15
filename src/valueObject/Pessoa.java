@@ -10,14 +10,21 @@ package valueObject;
  * @author Lucas
  */
 public class Pessoa {
-  private int idPessoa;
-  private String nome;
-  private String tipo;
-  private String ra;
-  private String email;
-  private String instituicao;
-  private String cpf;
-  private String rg;
+    
+  protected int idPessoa;
+  protected String nome;
+  protected String tipo;
+  protected String ra;
+  protected String email;
+  protected String instituicao;
+  protected String cpf;
+  protected String rg;
+  
+    // Quando uma operação envolvendo este objeto der erro em tempo de execução, 
+    // este atributo será acionado
+    protected boolean error = false;
+    // Especificação do erro
+    protected String message;
 
     public Pessoa(int idPessoa, String nome, String tipo, String ra, String email, String instituicao, String cpf, String rg) {
         this.idPessoa = idPessoa;
@@ -92,6 +99,34 @@ public class Pessoa {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    /**
+     * @return the error
+     */
+    public boolean isError() {
+        return error;
+    }
+
+    /**
+     * @param error the error to set
+     */
+    public void setError(boolean error) {
+        this.error = error;
+    }
+
+    /**
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * @param message the message to set
+     */
+    public void setMessage(String message) {
+        this.message = message;
     }
   
 }

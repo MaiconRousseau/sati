@@ -17,12 +17,7 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 import valueObject.Edicao;
-import valueObject.Pessoa;
-
 /**
  *
  * @author jao

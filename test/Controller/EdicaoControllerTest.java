@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import valueObject.*;
 
 /**
@@ -26,9 +25,9 @@ public class EdicaoControllerTest {
 
     private final Calendar calendar = Calendar.getInstance();
 
-    private Date inicio;
-    private Date fim;
-    private Date vencimento;
+    private final Date inicio;
+    private final Date fim;
+    private final Date vencimento;
 
     private Edicao edicao;
     

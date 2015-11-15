@@ -8,7 +8,6 @@ package Controller;
 import Model.EdicaoModel;
 import java.util.ArrayList;
 import valueObject.Edicao;
-import valueObject.Pessoa;
 
 /**
  *
