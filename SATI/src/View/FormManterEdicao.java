@@ -208,7 +208,8 @@ public final class FormManterEdicao extends FormTemplate {
                     agendaDefinida, titulo, tema,
                     dadosBancarios, -1);
             
-            EdicaoController.cadastrarEdicao(edicao);
+            EdicaoController edicaoController = new EdicaoController();
+            edicaoController.cadastrarEdicao(edicao);
 
             if(edicao.isError()) {
                 Message.showError("O(s) seguinte(s) erro(s) ocorreu(ram):\n"
