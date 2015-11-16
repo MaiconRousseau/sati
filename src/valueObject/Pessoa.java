@@ -37,6 +37,9 @@ public class Pessoa {
         this.rg = rg;
     }
 
+    public Pessoa() {
+    }
+
     public String getRg() {
         return rg;
     }

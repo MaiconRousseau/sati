@@ -6,6 +6,7 @@
 package Controller;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
 import valueObject.DadosBancarios;
 import valueObject.Edicao;
@@ -52,7 +53,16 @@ public class Util {
     }
 
     private static DadosBancarios getDadosBancarios(int idDadosBancarios) {
-        return null;
+        
+        DadosBancariosController dbM = new DadosBancariosController();
+        DadosBancarios db = new DadosBancarios();
+        db.setIdDadosBancarios(idDadosBancarios);
+        
+        ArrayList<DadosBancarios> newList = dbM.buscarDadosBancarios(db, "ID");
+        
+        db = (newList == null || newList.isEmpty())? null: newList.get(0);
+        
+        return db;
     }
 
     public static DadosBancarios criarDadosBancarios(ResultSet rs) {
@@ -79,6 +89,36 @@ public class Util {
             
             //System.out.println(dadosBancarios.getMessage());
             
+            return null;
+        }
+    }
+
+    public static Pessoa criarPessoa(ResultSet rs) {
+        Pessoa pessoa;
+        try {
+            // Criando objeto para receber os dados preenchidos na tela
+            
+            int cont = 0;
+            int idPessoa = rs.getInt(cont++);
+            String nome = rs.getString(cont++);
+            String tipo = rs.getString(cont++);
+            String ra = rs.getString(cont++);
+            String email = rs.getString(cont++);
+            String instituicao = rs.getString(cont++);
+            String cpf = rs.getString(cont++);
+            String rg = rs.getString(cont++);
+            
+            
+            
+            pessoa = new Pessoa(idPessoa, nome, tipo, ra, email, instituicao, 
+                    cpf, rg);
+        
+            return pessoa;
+        }
+        catch(Exception e) {
+            pessoa = new Pessoa();
+            pessoa.setError(true);
+            pessoa.setMessage(e.getMessage());
             return null;
         }
     }

@@ -23,7 +23,7 @@ public class EdicaoController {
 
     // Função verifica os dados do objeto. Se sim, retorna true, se não retorna false
     // Altera a mensagem do objeto para especificar os erros
-    public boolean verificarAtributos(Edicao edicao, Verifica verifica) {
+    private boolean verificarAtributos(Edicao edicao, Verifica verifica) {
         
         String mensagem = "";
         // Verifica campos vazios

@@ -6,10 +6,13 @@
 package Model;
 
 import Connector.MySQLConnector;
+import Controller.Util;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import valueObject.Pessoa;
 
 /**
@@ -18,7 +21,6 @@ import valueObject.Pessoa;
  */
 public class PessoaModel {
     
-
     public boolean cadastrarPessoa(Pessoa pessoa){
         try {
             // Connect with database
@@ -76,8 +78,8 @@ public class PessoaModel {
         }
     
     }
-    /*
-    public static ArrayList<Pessoa>  buscarPessoa(Pessoa pessoa, String tipo) {
+    
+    public ArrayList<Pessoa>  buscarPessoa(Pessoa pessoa, String tipo) {
 
         try {
             // Connect with database
@@ -85,34 +87,12 @@ public class PessoaModel {
             Connection con = mCon.connect();
             
             // List of Buses
-            ArrayList<Pessoa> pessoaList = new ArrayList<>();
+            ArrayList<Pessoa> newList = new ArrayList<>();
             
             ResultSet rs;
             PreparedStatement stm;
             
             switch(tipo) {
-                case "SEMCARTEIRA":
-                    stm  = con.prepareStatement("SELECT * FROM Pessoa AS p "
-                            + "WHERE NOT EXISTS "
-                            + "     (SELECT p.idPessoa "
-                            + "         FROM Carteira AS c "
-                            + "         WHERE p.idPessoa = c.idPessoa "
-                            + "             AND c.STATUS = 1 GROUP BY 1) "
-                            + "AND p.Status = 1 ORDER BY 1");
-                    break;
-                case "STATUS":
-                    stm  = con.prepareStatement("SELECT * FROM pessoa WHERE status = ?");
-                    stm.setBoolean(1, pessoa.isStatus());
-                    break;
-                case "UNIQUE_ID":
-                    stm  = con.prepareStatement("SELECT * FROM pessoa WHERE idPessoa = ?");
-                    stm.setInt(1, pessoa.getIdPessoa());
-                    break;
-                case "CPF":
-                    stm  = con.prepareStatement("SELECT * FROM pessoa WHERE cpf LIKE ?");
-                    // Operador LIKE precisa do %
-                    stm.setString(1, '%' + pessoa.getCpf() + '%');
-                    break;
                 default: 
                     stm  = con.prepareStatement("SELECT * FROM pessoa");
                     break;
@@ -123,19 +103,26 @@ public class PessoaModel {
             while (rs.next()) {
                 Pessoa pessoaVO = Util.criarPessoa(rs);
                 
-                pessoaList.add(pessoaVO);
+                if(pessoaVO == null) {
+                    
+                    SQLException e = new SQLException();
+                    throw e;
+                }
+                
+                newList.add(pessoaVO);
             }
             
             mCon.disconnect();
-            return pessoaList;
+            return newList;
         }
         catch(Exception e) {
             pessoa.setError(true);
             pessoa.setMessage("\tFalha Técnica\n\t" + e.getMessage());
+            //System.out.println(e.getMessage());
             return null;
         }
     }
-
+/*
     public static void alterarPessoa(Pessoa pessoa) {
         try {
             // Connect with database
@@ -268,4 +255,60 @@ public class PessoaModel {
         }
     }
     */
+
+    public boolean alterarPessoa(Pessoa pessoa) {
+        
+        try {
+            // Connect with database
+            MySQLConnector mCon = new MySQLConnector();
+            Connection con = mCon.connect();
+            
+            // SQL que vai ser executada
+            String query = (
+                    "UPDATE pessoa SET "
+                    + "nome = ?, "
+                    + "tipo = ?, "
+                    + "ra = ?, "
+                    + "email = ?, "
+                    + "instituicao = ?, "
+                    + "cpf = ?, "
+                    + "rg = ?"
+                    + "WHERE idPessoa = ?");
+            
+            
+            PreparedStatement stm;
+            stm = con.prepareStatement(query);
+            int cont = 1;
+            
+            stm.setString(cont++, pessoa.getNome());
+            stm.setString(cont++, pessoa.getTipo());
+            stm.setString(cont++, pessoa.getRa());
+            stm.setString(cont++, pessoa.getEmail());
+            stm.setString(cont++, pessoa.getInstituicao());
+            stm.setString(cont++, pessoa.getCpf());
+            stm.setString(cont++, pessoa.getRg());
+            
+            stm.setInt(cont++, pessoa.getIdPessoa());
+            
+            // Confere se alguma linha do BD foi modificada
+            int status = stm.executeUpdate();
+            
+            if(status == 1) {
+                pessoa.setError(false);
+                pessoa.setMessage("Cadastrado com Sucesso!");
+            }
+            else {
+                pessoa.setError(true);
+                pessoa.setMessage("Falha ao Cadastrar!");
+            }
+            
+            mCon.disconnect();
+            return !pessoa.isError();
+        }
+        catch(Exception e) {
+            pessoa.setError(true);
+            pessoa.setMessage("\tFalha Técnica\n\t" + e.getMessage());
+            return false;
+        }
+    }
 }

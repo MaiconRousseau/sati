@@ -8,6 +8,7 @@ package Controller;
 import Addons.ValidaCPF;
 import Model.PessoaModel;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.text.MaskFormatter;
@@ -83,15 +84,8 @@ public class PessoaController {
         System.out.println(pessoa.getMessage());
         return res;
     }
-        
-        
-        
     
-    
-    //www.desenvolvimentoweb.blog.br/2013/06/java-aplicando-mascara-cep-cnpj-cpf-com-maskformatter/#sthash.whaVm0ng.dpuf
-    
-    public static boolean validar(String email)
-    {
+    public static boolean validar(String email){
         boolean isEmailIdValid = false;
         if (email != null && email.length() > 0) {
             String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
@@ -117,45 +111,48 @@ public class PessoaController {
             return "ERROR";
         } 
     }
-    /*
+    
     // Objeto1 (da Classe) tem os critérios da busca, caso algum existe
     // Objeto2 (String) especifica o tipo da pesquisa
-    public static ArrayList<Pessoa>  buscarPessoa(Pessoa pessoa, String tipo) {
-        // Tratando pesquisa por CPF
-        // No banco está armazenado com Máscara
-        if(tipo.equals("CPF")) {
-            boolean cpfValido  = mascaraCPF(pessoa);
-            // Se o que foi digitado na pesquisa não for válido, não é necessário fazer a busca
-            if(!cpfValido)
-                return null;
-        }
+    public ArrayList<Pessoa>  buscarPessoa(Pessoa pessoa, String tipo) {
         
-        ArrayList<Pessoa> newList = PessoaModel.buscarPessoa(pessoa, tipo);
+        
+        ArrayList<Pessoa> newList = pessoaM.buscarPessoa(pessoa, tipo);
         
         // Se não houve nenhum erro na pesquisa, e ainda assim, a lista está vazia
         if(!pessoa.isError() && newList == null)
         {
             pessoa.setError(true);
-            pessoa.setMessage("Nenhum possível titular foi encontrado.");
+            pessoa.setMessage("Erro!");
             return null;
         }
-        else
-            return newList;
+        
+        if( newList.isEmpty() ) {
+           //System.out.println("Nenhum item foi encontrado!");
+           pessoa.setMessage("Nenhum item foi encontrado!"); 
+        }
+        
+        return newList;
     }
     
     
 
-    public static void alterarPessoa(Pessoa pessoa) {
-        boolean verifica = PessoaController.verificarCampos(pessoa);
+    public boolean alterarPessoa(Pessoa pessoa) {
+        boolean verifica = this.verificarAtributos(pessoa);
         
         if(!verifica) {
             pessoa.setError(true);
+            System.out.println(pessoa.getMessage());
             // Algum dado informado é inválido
-            return;
+            return false;
         }
-        PessoaModel.alterarPessoa(pessoa);
+        boolean res = pessoaM.alterarPessoa(pessoa);
+        
+        System.out.println(pessoa.getMessage());
+        return res;
+        
     }
-
+/*
     public static void excluirPessoa(Pessoa pessoa) {
         PessoaModel.excluirPessoa(pessoa);
     }
