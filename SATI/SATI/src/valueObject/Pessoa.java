@@ -18,6 +18,10 @@ public class Pessoa {
   private String instituicao;
   private String cpf;
   private String rg;
+  
+  private boolean error = false;
+        // Especificação do erro
+  private String message;
 
     public Pessoa(int idPessoa, String nome, String tipo, String ra, String email, String instituicao, String cpf, String rg) {
         this.idPessoa = idPessoa;
@@ -28,6 +32,10 @@ public class Pessoa {
         this.instituicao = instituicao;
         this.cpf = cpf;
         this.rg = rg;
+    }
+
+    public Pessoa() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getRg() {
@@ -92,6 +100,24 @@ public class Pessoa {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public void setError(boolean error) {
+        this.error = error;
+    }
+    
+    
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public boolean isError() {
+        return error;
+    }
+
+    public String getMessage() {
+        return message;
     }
   
 }
