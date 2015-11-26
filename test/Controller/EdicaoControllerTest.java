@@ -27,7 +27,6 @@ public class EdicaoControllerTest {
 
     private final Date inicio;
     private final Date fim;
-    private final Date vencimento;
 
     private Edicao edicao;
     
@@ -37,9 +36,8 @@ public class EdicaoControllerTest {
         calendar.set(year, month+2, date);
         this.fim = calendar.getTime();
         calendar.set(year, month, date);
-        this.vencimento = calendar.getTime();
         
-        this.edicao = new Edicao (inicio, fim, vencimento, 
+        this.edicao = new Edicao (inicio, fim, 
                 false, "Titulo","Tema",
                 new DadosBancarios(), -1);
         
@@ -49,25 +47,25 @@ public class EdicaoControllerTest {
     
     @Test
     public void testEdicaoDeveConterTituloETema() {
-        this.edicao = new Edicao (inicio, fim, vencimento, 
+        this.edicao = new Edicao (inicio, fim,  
                 false, "","",
                 new DadosBancarios(), -1);
         
         Assert.assertEquals(false, eCon.cadastrarEdicao(edicao));
         
-        this.edicao = new Edicao (inicio, fim, vencimento, 
+        this.edicao = new Edicao (inicio, fim,  
                 false, "Titulo","",
                 new DadosBancarios(), -1);
         
         Assert.assertEquals(false, eCon.cadastrarEdicao(edicao));
         
-        this.edicao = new Edicao (inicio, fim, vencimento, 
+        this.edicao = new Edicao (inicio, fim,  
                 false, "","Tema",
                 new DadosBancarios(), -1);
         
         Assert.assertEquals(false, eCon.cadastrarEdicao(edicao));
         
-        this.edicao = new Edicao (inicio, fim, vencimento, 
+        this.edicao = new Edicao (inicio, fim,  
                 false, "Titulo","Tema",
                 new DadosBancarios(), -1);
         
@@ -86,7 +84,7 @@ public class EdicaoControllerTest {
         calendar.set(2015, 11, 14);
         dataFim = calendar.getTime();
         
-        this.edicao = new Edicao (dataInicio, dataFim, vencimento, 
+        this.edicao = new Edicao (dataInicio, dataFim,  
                 false, "Titulo","Tema",
                 new DadosBancarios(), -1);
         
@@ -97,7 +95,7 @@ public class EdicaoControllerTest {
         calendar.set(2015, 11, 15);
         dataFim = calendar.getTime();
         
-        this.edicao = new Edicao (dataInicio, dataFim, vencimento, 
+        this.edicao = new Edicao (dataInicio, dataFim,  
                 false, "Titulo","Tema",
                 new DadosBancarios(), -1);
         
@@ -127,7 +125,7 @@ public class EdicaoControllerTest {
         calendar.set(2016, month, date);
         dataFim = calendar.getTime();
         
-        this.edicao = new Edicao (dataInicio, dataFim, dataVencimento, 
+        this.edicao = new Edicao (dataInicio, dataFim, 
                 false, "Titulo","Tema",
                 new DadosBancarios(), -1);
         
@@ -138,7 +136,7 @@ public class EdicaoControllerTest {
         calendar.set(2015, 11, 14);
         dataVencimento = calendar.getTime();
         
-        this.edicao = new Edicao (dataInicio, dataFim, dataVencimento, 
+        this.edicao = new Edicao (dataInicio, dataFim, 
                 false, "Titulo","Tema",
                 new DadosBancarios(), -1);
         

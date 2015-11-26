@@ -7,6 +7,9 @@ package Controller;
 
 import Model.EdicaoModel;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import valueObject.Edicao;
 
 /**
@@ -25,49 +28,37 @@ public class EdicaoController {
     // Altera a mensagem do objeto para especificar os erros
     private boolean verificarAtributos(Edicao edicao, Verifica verifica) {
         
-        String mensagem = "";
+
         // Verifica campos vazios
-        if(edicao.getTema().equals(""))
-            mensagem = mensagem.concat("Tema não pode estar vazio\n");
-        if(edicao.getTitulo().equals(""))
-            mensagem = mensagem.concat("Titulo não pode estar vazio\n");
-        if(edicao.getDataInicio() == null)
-            mensagem = mensagem.concat("Data de Início não pode estar vazio\n");
-        if(edicao.getDataFim() == null)
-            mensagem = mensagem.concat("Data de Fim não pode estar vazio\n");
-        if(edicao.getDataVencimentoInscricao() == null)
-            mensagem = mensagem.concat("Data de Vencimento das Inscrições não pode estar vazio\n");
-        // Não fazer comparações nulas
-        if(edicao.getDataInicio() != null 
-                && edicao.getDataFim() != null
-                && edicao.getDataInicio().after( edicao.getDataFim() ))
-            mensagem = mensagem.concat("Data de Fim não pode ser menor que Data de Início\n");
-        
-        if(edicao.getDataInicio() != null 
-                && edicao.getDataVencimentoInscricao() != null
-                && edicao.getDataVencimentoInscricao().after( edicao.getDataInicio() ))
-            mensagem = mensagem.concat("Data de Vencimento da Inscrição não "
-                    + "pode ser maior que Data de Início\n");
-        
-        // Existe uma edição no mesmo ano
-        if(verifica == Verifica.CADASTRAR) {
-            if( this.buscarEdicaoExistente(edicao, "ANO") )
-                mensagem = mensagem.concat("Não pode haver dois eventos no mesmo ano.\n");
-            if (edicao.isAgendaDefinida())
-                mensagem = mensagem.concat("Agenda não pode estar definida no momento de cadastro.\n");
+        if(     edicao.getTema() == null        ||  edicao.getTitulo() == null || 
+                edicao.getTema().equals("")     ||  edicao.getTitulo().equals("") || 
+                edicao.getDataInicio() == null  ||  edicao.getDataFim() == null ||
+                edicao.getDadosBancarios() == null)
+            return false;
+        else {
+            
+            /*Date hoje = edicao.getDataInicio(); 
+            
+            Calendar cal = new GregorianCalendar();
+            cal.setTime(hoje);
+            // Verifica se é 30 dias antes
+            cal.add(Calendar.DAY_OF_MONTH, +29);
+            
+            hoje = cal.getTime();*/
+                
+            if(     !edicao.getDataInicio().before( edicao.getDataFim() )/* ||
+                    edicao.getDataInicio().after( hoje )*/
+                    )
+                return false;
+            
+            if( verifica == Verifica.CADASTRAR ){
+                if( this.buscarEdicaoExistente(edicao, "ANO") )
+                    return false;
+            }
+            
+            return true;
+            
         }
-  
-        
-        // A nova mensagem dentro do objeto será a mensagem atual 
-        // com as novas informações
-        // Verifica de erro para quando mensagem estiver vazia
-        String edicaoMensagemAtual = ( edicao.getMessage() == null )? "": edicao.getMessage();
-        String edicaoMensagemNova = edicaoMensagemAtual.concat(mensagem);
-        edicao.setMessage(edicaoMensagemNova);
-        
-        
-        // Caso alguma regra não tenha sido cumprida, há erro e a mensagem não é vazia
-        return mensagem.equals("");
     }
     
     // Retorna verdadeiro se for possível cadastrar
@@ -76,14 +67,14 @@ public class EdicaoController {
         boolean verifica = this.verificarAtributos(edicao, Verifica.CADASTRAR);
         
         if(!verifica) {
-            edicao.setError(true);
+            //edicao.setError(true);
             // Algum dado informado é inválido
             //System.out.println(edicao.getMessage());
             return false;
         }
         
         boolean res = edicaoModel.cadastrarEdicao(edicao);
-        //System.out.println(edicao.getMessage());
+        
         return res;
         
     }

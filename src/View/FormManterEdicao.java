@@ -204,7 +204,7 @@ public final class FormManterEdicao extends FormTemplate {
             boolean agendaDefinida = false;
             Date dataVencimento = this.jDCDataVencimento.getDate();
 
-            Edicao edicao = new Edicao(dataInicio, dataFim, dataVencimento, 
+            Edicao edicao = new Edicao(dataInicio, dataFim, 
                     agendaDefinida, titulo, tema,
                     dadosBancarios, -1);
             

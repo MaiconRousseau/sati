@@ -33,8 +33,8 @@ public class EdicaoModel{
             MySQLConnector mCon = new MySQLConnector();
             Connection con = mCon.connect();
 
-            String query = "INSERT INTO Edicao( dataInicio, dataFim, dataVencimentoInscricao, "
-                    + "agendaDefinida, titulo, tema, idDadosBancarios) values (?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Edicao( dataInicio, dataFim,  "
+                    + "agendaDefinida, titulo, tema, idDadosBancarios) values (?, ?, ?, ?, ?, ?)";
         
             PreparedStatement stm;
             stm = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -45,9 +45,6 @@ public class EdicaoModel{
             
             Timestamp dataFim = new Timestamp(edicao.getDataFim().getTime());
             stm.setTimestamp(cont++, dataFim);
-            
-            Timestamp dataVencimento = new Timestamp(edicao.getDataVencimentoInscricao().getTime());
-            stm.setTimestamp(cont++, dataVencimento);
             
             stm.setBoolean(cont++, edicao.isAgendaDefinida());
             stm.setString(cont++, edicao.getTitulo());
@@ -63,10 +60,11 @@ public class EdicaoModel{
             }
             
             int status = stm.executeUpdate();
-            
+            boolean res;
             if(status == 1){
-                edicao.setError(false);
+                //edicao.setError(false);
                 edicao.setMessage("Cadastrado com Sucesso!");
+                
                 
                 ResultSet rs = stm.getGeneratedKeys();
                 rs.next();
@@ -74,15 +72,16 @@ public class EdicaoModel{
                 int key = rs.getInt(1);
                 //System.out.println("Key" + key);
                 edicao.setIdEdicao(key);
-            
+                res = true;
             }
             else{
-                edicao.setError(true);
+                //edicao.setError(true);
+                res = false;
                 edicao.setMessage("Falha ao cadastrar nova Edição!");
-                
             }
+            
             mCon.disconnect();
-            return !edicao.isError();
+            return res;
         } catch (Exception e) {
            edicao.setError(true);
            edicao.setMessage("Falha ao Cadastrar Edição\n\t" + e.getMessage());
@@ -97,7 +96,6 @@ public class EdicaoModel{
             
             String query = "update Edicao set dataInicio = ?,"
                     + "dataFim = ?, "
-                    + "dataVencimentoInscricao = ?, "
                     + "agendaDefinida = ?, "
                     + "titulo = ?, "
                     + "tema = ?, "
@@ -116,9 +114,7 @@ public class EdicaoModel{
             Timestamp dataFim = new Timestamp(edicao.getDataFim().getTime());
             stm.setTimestamp(cont++, dataFim);
             
-            Timestamp dataVencimento = new Timestamp(edicao.getDataVencimentoInscricao().getTime());
-            stm.setTimestamp(cont++, dataVencimento);
-            
+           
             stm.setBoolean(cont++, edicao.isAgendaDefinida());
             stm.setString(cont++, edicao.getTitulo());
             stm.setString(cont++, edicao.getTema());

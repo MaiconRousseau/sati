@@ -6,18 +6,79 @@
 package Controller;
 
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import valueObject.DadosBancarios;
 import valueObject.Edicao;
 import valueObject.Pessoa;
+import valueObject.Programacao;
 
 /**
  *
  * @author Lucas
  */
 public class Util {
+        public static Programacao criarProgramacao(ResultSet rs) {
+            Programacao prog = null;
+        try {
+            // Criando objeto para receber os dados preenchidos na tela
+            int idProgramacao = rs.getInt("idProgramacao");
+            Timestamp dataInicio = rs.getTimestamp("dataInicio");
+            double custo = rs.getDouble("custo");
+            double custoResponsavel = rs.getDouble("custoResponsavel");
+            String local = rs.getString("local");
+            String titulo = rs.getString("titulo");
+            String descricao = rs.getString("descricao");
+            int capacidade = rs.getInt("capacidade");
+            Timestamp dataFim = rs.getTimestamp("dataFim");
+            double valorInscricao = rs.getDouble("valorInscricao");
+            int idEdicao = rs.getInt("idEdicao");
+            int idPessoa = rs.getInt("idPessoa");
+            
+            Pessoa pessoa = getPessoaID(idPessoa);//Retorna a pessoa responsavel
+            Edicao edicao = getEdicaoID(idEdicao);//Retorna a ediç?o
+            
+            prog = new Programacao(idProgramacao, 
+                    dataInicio, custo, custoResponsavel, local, titulo, 
+                    descricao, capacidade, dataFim, valorInscricao, 
+                    edicao, pessoa);
+           
+            return prog;
+        }
+        catch(Exception e) {
+           
+            prog.setError(true);
+            prog.setMessage(e.getMessage());
+            return null;
+        }
+    }
+        
+    
+    private static Pessoa getPessoaID(int idPessoa) { 
+        PessoaController pessoaC = new PessoaController();
+        Pessoa pessoa = new Pessoa();
+        pessoa.setIdPessoa(idPessoa);
+        
+        ArrayList<Pessoa> newList = pessoaC.buscarPessoa(pessoa, "ID");
+        
+        pessoa = (newList == null || newList.isEmpty())? null: newList.get(0);
+        
+        return pessoa;
+    }
 
+    private static Edicao getEdicaoID(int idEdicao) { 
+        EdicaoController edicaoC = new EdicaoController();
+        Edicao edicao = new Edicao();
+        edicao.setIdEdicao(idEdicao);
+        
+        ArrayList<Edicao> newList = edicaoC.buscarEdicao(edicao, "ID");
+        
+        edicao = (newList == null || newList.isEmpty())? null: newList.get(0);
+        
+        return edicao;
+    }
+        
     public static Edicao criarEdicao(ResultSet rs) {
         Edicao edicao;
         try {
@@ -34,7 +95,7 @@ public class Util {
             
             DadosBancarios dadosBancarios = Util.getDadosBancarios(idDadosBancarios); // Tem que criar o buscas Dados Bancários
     
-            edicao = new Edicao (dataInicio, dataFim, dataVencimentoInscricao, 
+            edicao = new Edicao (dataInicio, dataFim, 
                     agendaDefinida, titulo, tema,
                     dadosBancarios, idEdicao);
             

@@ -15,7 +15,6 @@ public class Edicao {
     
     private Date dataInicio;
     private Date dataFim;
-    private Date dataVencimentoInscricao;
     private boolean agendaDefinida;
     private String titulo;
     private String tema;
@@ -37,12 +36,11 @@ public class Edicao {
     // Especificação do erro
     private String message;
     
-    public Edicao (Date dataInicio, Date dataFim, Date dataVencimentoInscricao, 
+    public Edicao (Date dataInicio, Date dataFim, 
                     boolean agendaDefinida, String titulo, String tema,
                     DadosBancarios dadosBancarios, int idEdicao) {
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
-        this.dataVencimentoInscricao = dataVencimentoInscricao;
         this.agendaDefinida= agendaDefinida;
         this.titulo = titulo;
         this.tema = tema;
@@ -82,19 +80,6 @@ public class Edicao {
         this.dataFim = dataFim;
     }
 
-    /**
-     * @return the dataVencimentoInscricao
-     */
-    public Date getDataVencimentoInscricao() {
-        return dataVencimentoInscricao;
-    }
-
-    /**
-     * @param dataVencimentoInscricao the dataVencimentoInscricao to set
-     */
-    public void setDataVencimentoInscricao(Date dataVencimentoInscricao) {
-        this.dataVencimentoInscricao = dataVencimentoInscricao;
-    }
 
     /**
      * @return the agendaDefinida

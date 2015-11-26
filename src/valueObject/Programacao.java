@@ -5,52 +5,43 @@
  */
 package valueObject;
 
-import java.sql.Date;
 
-/**
- *
- * @author Lucas
- */
+import java.sql.Timestamp;
+
 public class Programacao {
     
     private int idProgramacao;
-    private Date dataHoraInicio;
-    private Date dataHoraFim;
+    private Timestamp dataInicio;
     private double custo;
     private double custoResponsavel;
     private String local;
     private String titulo;
     private String descricao;
     private int capacidade;
-    private int cargaHoraria;
+    private Timestamp dataFim;
     private double valorInscricao;
     private Edicao edicao;
     private Pessoa pessoa;
   
-    // Quando uma operação envolvendo este objeto der erro em tempo de execução, 
-    // este atributo será acionado
-        private boolean error = false;
-        // Especificação do erro
-        private String message;
+    private boolean error = false;
+    private String message;
 
 
-    public Programacao(int idProgramacao, Date dataHoraInicio, Date dataHoraFim, double custo, double custoResponsavel, String local, String titulo, String descricao, int capacidade, int cargaHoraria, double valorInscricao, Edicao edicao, Pessoa pessoa) {
+    public Programacao(int idProgramacao, Timestamp dataInicio, double custo, double custoResponsavel, String local, String titulo, String descricao, int capacidade, Timestamp dataFim, double valorInscricao, Edicao edicao, Pessoa pessoa) {
         this.idProgramacao = idProgramacao;
-        this.dataHoraInicio = dataHoraInicio;
-        this.dataHoraFim = dataHoraFim;
+        this.dataInicio = dataInicio;
         this.custo = custo;
         this.custoResponsavel = custoResponsavel;
         this.local = local;
         this.titulo = titulo;
         this.descricao = descricao;
         this.capacidade = capacidade;
-        this.cargaHoraria = cargaHoraria;
+        this.dataFim = dataFim;
         this.valorInscricao = valorInscricao;
         this.edicao = edicao;
         this.pessoa = pessoa;
         
-    }
-  
+    }  
   
     public int getIdProgramacao() {
         return idProgramacao;
@@ -58,22 +49,6 @@ public class Programacao {
 
     public void setIdProgramacao(int idProgramacao) {
         this.idProgramacao = idProgramacao;
-    }
-
-    public Date getDataHoraInicio() {
-        return dataHoraInicio;
-    }
-
-    public void setDataHoraInicio(Date dataHoraInicio) {
-        this.dataHoraInicio = dataHoraInicio;
-    }
-
-    public Date getDataHoraFim() {
-        return dataHoraFim;
-    }
-
-    public void setDataHoraFim(Date dataHoraFim) {
-        this.dataHoraFim = dataHoraFim;
     }
 
     public double getCusto() {
@@ -124,12 +99,12 @@ public class Programacao {
         this.capacidade = capacidade;
     }
 
-    public int getCargaHoraria() {
-        return cargaHoraria;
+    public Timestamp getDataFim() {
+        return dataFim;
     }
 
-    public void setCargaHoraria(int cargaHoraria) {
-        this.cargaHoraria = cargaHoraria;
+    public void setDataFim(Timestamp dataFim) {
+        this.dataFim = dataFim;
     }
 
     public double getValorInscricao() {
@@ -170,5 +145,13 @@ public class Programacao {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Timestamp getDataInicio() {
+        return dataInicio;
+    }
+
+    public void setDataInicio(Timestamp dataInicio) {
+        this.dataInicio = dataInicio;
     }
 }
