@@ -196,6 +196,7 @@ public final class FormManterEdicao extends FormTemplate {
             String titulo = this.jTFTitulo.getText();
             Date dataInicio = this.jDCDataInicio.getDate();
             Date dataFim = this.jDCDataFim.getDate();
+            
 
             
             // Se a opção sim estiver ativa, o valor é verdadeiro
@@ -208,8 +209,9 @@ public final class FormManterEdicao extends FormTemplate {
                     agendaDefinida, titulo, tema,
                     dadosBancarios, -1);
             
-            EdicaoController.cadastrarEdicao(edicao);
-
+            EdicaoController edicaoCon = new EdicaoController();
+            edicaoCon.cadastrarEdicao(edicao);
+            
             if(edicao.isError()) {
                 Message.showError("O(s) seguinte(s) erro(s) ocorreu(ram):\n"
                         + edicao.getMessage());

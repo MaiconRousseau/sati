@@ -5,6 +5,8 @@
  */
 package Controller;
 
+import Model.DadosBancariosModel;
+import java.util.ArrayList;
 import valueObject.DadosBancarios;
 
 /**
@@ -12,8 +14,10 @@ import valueObject.DadosBancarios;
  * @author Lucas
  */
 public class DadosBancariosController {
+    
+    private final DadosBancariosModel dbModel = new DadosBancariosModel();
 
-    public static boolean verificaDadosBancarios(DadosBancarios dadosBancarios) {
+    public boolean verificarAtributos(DadosBancarios dadosBancarios) {
         
         
         String mensagem = "";
@@ -24,11 +28,9 @@ public class DadosBancariosController {
             mensagem = mensagem.concat("Conta não pode estar vazio\n");
         if(dadosBancarios.getTipo().equals(""))
             mensagem = mensagem.concat("Tipo de Conta não pode estar vazio\n");
-        /*
-        // Criar alguma regra da carteira se necessário
-        if(dadosBancarios.getCarteira() == 0)
-            mensagem = mensagem.concat("Carteira não pode estar vazio\n");
-        */
+        
+        if(dadosBancarios.getCarteira() < 0)
+            mensagem = mensagem.concat("Entrada Inválida para Carteira\n");
         
         // A nova mensagem dentro do objeto será a mensagem atual 
         // com as novas informações
@@ -42,19 +44,51 @@ public class DadosBancariosController {
         return mensagem.equals("");
     }
 
-    public static void cadastrarDadosBancarios(DadosBancarios dadosBancarios) {
+    public boolean cadastrarDadosBancarios(DadosBancarios dadosBancarios) {
         
         // Verifica os campos dos dados bancários atuais
-        boolean verificaDadosBancarios = DadosBancariosController.verificaDadosBancarios(dadosBancarios);
+        boolean verifica = this.verificarAtributos(dadosBancarios);
         
         // Atualização o status de erro do objeto
-        dadosBancarios.setError(!verificaDadosBancarios);
-       
-        // Verifica se há um erro, se sim, retorna para com o erro
-        if(dadosBancarios.isError())
-            return;
+        if(!verifica) {
+            dadosBancarios.setError(true);
+            // Algum dado informado é inválido
+            //System.out.println(edicao.getMessage());
+            return false;
+        }
         
         System.out.println("Cadastrar Dados Bancários");
+        
+        boolean res = dbModel.cadastrarDadosBancarios(dadosBancarios);
+        return res;
+    }
+
+
+    public boolean buscarDadosBancariosExistente(DadosBancarios dadosBancarios, String tipo) {
+        ArrayList<DadosBancarios> newList = this.buscarDadosBancarios(dadosBancarios, tipo);
+        return !(newList == null || newList.isEmpty());
+    }
+    
+    public ArrayList<DadosBancarios> buscarDadosBancarios(DadosBancarios dadosBancarios, String tipo) {
+        
+        ArrayList<DadosBancarios> newList = this.dbModel.buscarDadosBancarios(dadosBancarios, tipo);
+        
+        // Se não houve nenhum erro na pesquisa, e ainda assim, a lista está vazia
+        if(newList == null || dadosBancarios.isError())
+        {
+            dadosBancarios.setError(true);
+            dadosBancarios.setMessage("Erro!");
+            //System.out.println("ERRO");
+            return null;
+        }
+        
+        if( newList.isEmpty() ) {
+           //System.out.println("Nenhum item foi encontrado!");
+           dadosBancarios.setMessage("Nenhum item foi encontrado!"); 
+        }
+        
+        return newList;
+        
     }
     
 }

@@ -6,44 +6,62 @@
 package Model;
 
 import Connector.MySQLConnector;
+import Controller.DadosBancariosController;
+import Controller.Util;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Calendar;
 import valueObject.Edicao;
-
 /**
  *
  * @author jao
  */
-public class ModelEdicao{
-   
-   
-    public static void cadastrarEdicao(Edicao edicao){
-        try {
-                
-        MySQLConnector mCon = new MySQLConnector();
-        Connection con = mCon.connect();
+public class EdicaoModel{
+    
+    private DadosBancariosController dbController = new DadosBancariosController();
+
+    public boolean cadastrarEdicao(Edicao edicao){
         
-        String query = "insert into Edicao( dataInicio,dataFim, dataVencimentoInscricao,"
-                + "agendaDefinida, titulo, tema ,idDadosBancarios) values (?,?,?,?,?,?,?)";
+        try { 
+            // Connect with database
+            MySQLConnector mCon = new MySQLConnector();
+            Connection con = mCon.connect();
+
+            String query = "INSERT INTO Edicao( dataInicio, dataFim, dataVencimentoInscricao, "
+                    + "agendaDefinida, titulo, tema, idDadosBancarios) values (?, ?, ?, ?, ?, ?, ?)";
+        
             PreparedStatement stm;
             stm = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             int cont = 1;
             
-            stm.setDate(cont++, (java.sql.Date) edicao.getDataInicio());
-            stm.setDate(cont++, (java.sql.Date) edicao.getDataFim());
-            stm.setDate(cont++, (java.sql.Date) edicao.getDataVencimentoInscricao());
+            Timestamp dataInicio = new Timestamp(edicao.getDataInicio().getTime());
+            stm.setTimestamp(cont++, dataInicio);
+            
+            Timestamp dataFim = new Timestamp(edicao.getDataFim().getTime());
+            stm.setTimestamp(cont++, dataFim);
+            
+            Timestamp dataVencimento = new Timestamp(edicao.getDataVencimentoInscricao().getTime());
+            stm.setTimestamp(cont++, dataVencimento);
+            
             stm.setBoolean(cont++, edicao.isAgendaDefinida());
             stm.setString(cont++, edicao.getTitulo());
             stm.setString(cont++, edicao.getTema());
-            stm.setInt(cont++, edicao.getDadosBancarios().getIdDadosBancarios());
-           
+            
+            
+            // Proucura se existe o ID selecionado
+            //stm.setInt(cont++, edicao.getDadosBancarios().getIdDadosBancarios());
+            if ( dbController.buscarDadosBancariosExistente(edicao.getDadosBancarios(), "ID") ) {
+                stm.setInt(cont++, edicao.getDadosBancarios().getIdDadosBancarios());
+            } else {
+                stm.setNull(cont++, Types.INTEGER);
+            }
+            
             int status = stm.executeUpdate();
             
             if(status == 1){
@@ -54,33 +72,37 @@ public class ModelEdicao{
                 rs.next();
                 
                 int key = rs.getInt(1);
-                System.out.println(" Key"+key);
+                //System.out.println("Key" + key);
                 edicao.setIdEdicao(key);
+            
             }
             else{
-                edicao.setMessage("Falha ao cadastrar nova Edicao!");
+                edicao.setError(true);
+                edicao.setMessage("Falha ao cadastrar nova Edição!");
+                
             }
-           mCon.disconnect();
+            mCon.disconnect();
+            return !edicao.isError();
         } catch (Exception e) {
            edicao.setError(true);
-           edicao.setMessage("Falha ao Cadastrar Edicao\n\t"+ e.getMessage());
+           edicao.setMessage("Falha ao Cadastrar Edição\n\t" + e.getMessage());
+           return false;
         }
-        
     }
-    public static void alterarEdicao(Edicao edicao){
+    public boolean alterarEdicao(Edicao edicao){
         try { 
             
             MySQLConnector mCon = new MySQLConnector();
             Connection con = mCon.connect();
             
-            String query = "update edicao set dataInicio = ?,"
-                    + "dataFim = ?,"
-                    + "dataVencimentoInscricao = ?,"
-                    + "agendaDefinida = ?,"
-                    + "titulo = ?,"
-                    + "tema = ?,"
-                    + "idDadosBancarios = ?"
-                    + "where idEdicao = ?";
+            String query = "update Edicao set dataInicio = ?,"
+                    + "dataFim = ?, "
+                    + "dataVencimentoInscricao = ?, "
+                    + "agendaDefinida = ?, "
+                    + "titulo = ?, "
+                    + "tema = ?, "
+                    + "idDadosBancarios = ? "
+                    + "WHERE idEdicao = ?";
             
             PreparedStatement stm;
             stm = con.prepareStatement(query);
@@ -88,13 +110,27 @@ public class ModelEdicao{
             int cont = 1;
             
             //Alterando
-            stm.setDate(cont++, (java.sql.Date) edicao.getDataInicio());
-            stm.setDate(cont++, (java.sql.Date) edicao.getDataFim());
-            stm.setDate(cont++, (java.sql.Date) edicao.getDataVencimentoInscricao());
+            Timestamp dataInicio = new Timestamp(edicao.getDataInicio().getTime());
+            stm.setTimestamp(cont++, dataInicio);
+            
+            Timestamp dataFim = new Timestamp(edicao.getDataFim().getTime());
+            stm.setTimestamp(cont++, dataFim);
+            
+            Timestamp dataVencimento = new Timestamp(edicao.getDataVencimentoInscricao().getTime());
+            stm.setTimestamp(cont++, dataVencimento);
+            
             stm.setBoolean(cont++, edicao.isAgendaDefinida());
             stm.setString(cont++, edicao.getTitulo());
             stm.setString(cont++, edicao.getTema());
-            stm.setInt(cont++, edicao.getDadosBancarios().getIdDadosBancarios());
+            
+             // Proucura se existe o ID selecionado
+            //stm.setInt(cont++, edicao.getDadosBancarios().getIdDadosBancarios());
+            if ( dbController.buscarDadosBancariosExistente(edicao.getDadosBancarios(), "ID") ) {
+                stm.setInt(cont++, edicao.getDadosBancarios().getIdDadosBancarios());
+            } else {
+                stm.setNull(cont++, Types.INTEGER);
+            }
+            
             stm.setInt(cont++, edicao.getIdEdicao());
             
             int status =  stm.executeUpdate();
@@ -105,79 +141,126 @@ public class ModelEdicao{
                 edicao.setMessage("Alterado com sucesso");
             
             } else {
-                
+                edicao.setError(true);
                edicao.setMessage("Falha ao tentar alterar!");
             }
             mCon.disconnect();
+            return !edicao.isError();
         } catch (Exception e) {
-             edicao.setError(true);
-           edicao.setMessage("Falha ao Alterar a Edicao\n\t"+ e.getMessage());
+            edicao.setError(true);
+            edicao.setMessage("Falha ao Alterar a Edicao\n\t"+ e.getMessage());
+            return !edicao.isError();
         }
     
-    }/*
-    public static ArrayList<Edicao>  buscarEdicao(Edicao edicao,String tipo){
+    }
+
+    public ArrayList<Edicao> buscarEdicao(Edicao edicao, String tipo) {
         
         try {
+            // Connect with database
             MySQLConnector mCon = new MySQLConnector();
             Connection con = mCon.connect();
             
-            ArrayList<Edicao> listEdicao = new ArrayList<>();
+            // List of Buses
+            ArrayList<Edicao> newList = new ArrayList<>();
             
             ResultSet rs;
             PreparedStatement stm;
+            /*
+            DEFAULT - Busca todos as possíveis
+            */
+            int cont = 1;
+            switch(tipo) {
+                case "ID":
+                    
+                     stm  = con.prepareStatement("SELECT * FROM Edicao "
+                            + "WHERE idEdicao = ?");
+                     
+                     stm.setInt(1, edicao.getIdEdicao());
+    
+                    break;
+                case "ANO":
+                    stm  = con.prepareStatement("SELECT * FROM Edicao "
+                            + "WHERE EXTRACT(YEAR from dataInicio) = ?");
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime( edicao.getDataInicio() );
+                    
+                    stm.setInt(cont++, calendar.get(Calendar.YEAR));
+                    
+                    //System.out.println(calendar.get(Calendar.YEAR));
+                    
+                    break;
+                default: 
+                    stm  = con.prepareStatement("SELECT * FROM Edicao");
+                    break;
+            }
             
+            rs = stm.executeQuery();
+                    
+            while (rs.next()) {
+                Edicao edicaoVO = Util.criarEdicao(rs);
+                
+                if(edicaoVO == null) {
+                    
+                    SQLException e = new SQLException();
+                    throw e;
+                }
+                newList.add(edicaoVO);
+            }
             
-        } catch (Exception e) {
+            mCon.disconnect();
+            return newList;
         }
-        
-        
+        catch(Exception e) {
+            edicao.setError(true);
+            edicao.setMessage("\tFalha Técnica\n\t" + e.getMessage());
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
-    */
-}
-   /*
-    public void load() throws SQLException, Exception{
     
-    edicoes.clear();
-        
-    conn = MySQLConnector.connect();
-    Statement selectStat = conn.createStatement();
-    
-    String sqlQuery = " select idEdicao, dataInicio,datafim,dataVencimentoInscricao,"
-            + "agendaDefinida, titulo, tema,idDadosBancarios from Edicao";
-    
-    ResultSet results = selectStat.executeQuery(sqlQuery);
-    
-    while (results.next()){
-			
-			int id = results.getInt("idEdicao");
-			Date dataI = results.getDate("dataInicio");
-			Date dataF = results.getDate("datafim");
-			Date dataV = results.getDate("dataVencimentoInscricao");
-			boolean agenda = results.getBoolean("agendaDefinida");
-			String titulo = results.getString("titulo");
-			String tema = results.getString("tema");
-			String idBanco = results.getString("idDadosBancarios");
-			
-			Edicao edicao;
-                        edicao = new Edicao(dataI,dataF,dataV,agenda,titulo,tema,idBanco);
-			edicoes.add(edicao);
-                        
-                        Edicao (Date dataInicio, Date dataFim, Date dataVencimentoInscricao, 
-                    boolean agendaDefinida, String titulo, String tema,
-                    DadosBancarios dadosBancarios, int idEdicao) {
-                    this.dataInicio = dataInicio;
-                    this.dataFim = dataFim;
-                    this.dataVencimentoInscricao = dataVencimentoInscricao;
-                    this.agendaDefinida= agendaDefinida;
-                    this.titulo = titulo;
-                    this.tema = tema;
-                    this.dadosBancarios = dadosBancarios;
-                    this.idEdicao = idEdicao;
-			
-			System.out.println(person);
-		}
-		results.close();
-		selectStatement.close();
+    public boolean excluirEdicao(Edicao edicao, String tipo) {
+        try {
+            // Connect with database
+            MySQLConnector mCon = new MySQLConnector();
+            Connection con = mCon.connect();
+                 
+            // SQL que vai ser executada
+            PreparedStatement stm;
+            switch(tipo) {
+                case "ALL": 
+                    stm = con.prepareStatement(
+                            "DELETE FROM Edicao WHERE idEdicao > 0");
+                    break;
+                default: 
+                    stm = con.prepareStatement(
+                            "DELETE FROM Edicao WHERE idEdicao = ?");
+                    stm.setInt(1, edicao.getIdEdicao());
+                    break;
+            }
+            
+            // Confere se alguma linha do BD foi modificada
+            int status = stm.executeUpdate();
+            
+            if(status == 1) {
+                edicao.setError(false);
+                edicao.setMessage("Excluído com Sucesso!");
+                
+            }
+            else {
+                edicao.setError(true);
+                edicao.setMessage("Falha ao Excluir!");
+            }
+            
+            mCon.disconnect();
+            return !edicao.isError();
+        }
+        catch(Exception e) {
+            edicao.setError(true);
+            edicao.setMessage("\tFalha Técnica\n\t" + e.getMessage());
+            return false;
+        }
     }
+
 }
-*/
