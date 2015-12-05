@@ -94,7 +94,8 @@ public class PessoaModel {
             
             switch(tipo) {
                 case "ID": 
-                    stm  = con.prepareStatement("SELECT * FROM pessoa");
+                    stm  = con.prepareStatement("SELECT * FROM pessoa WHERE idPessoa = ?");
+                    stm.setInt(1, pessoa.getIdPessoa());
                     break;
                 default: 
                     stm  = con.prepareStatement("SELECT * FROM pessoa");
