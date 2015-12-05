@@ -7,6 +7,7 @@ package Controller;
 
 import Model.ProgramacaoModel;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import org.junit.Assert;
@@ -46,7 +47,7 @@ public class ProgramacaoControllerTest {
     private int carteira;
  
     @Test
-    public void ProgramacaoValida(){
+    public void testProgramacaoValida(){
         PessoaController conPessoa = new PessoaController();
         this.pessoa = new Pessoa(-1, "Joazinhu", 
                 "Tipo", "RA", "email@valido.com", "",//"Instituição", 
@@ -60,7 +61,7 @@ public class ProgramacaoControllerTest {
         calendar.set(year, month, date);
         this.vencimento = calendar.getTime();
         
-        db = new DadosBancarios ("Agencia", "Conta", "Tipo", 1,
+        db = new DadosBancarios ("Agencia1", "Conta", "Tipo", 1,
                             0);
         dbCon.cadastrarDadosBancarios(db);
         
@@ -78,6 +79,89 @@ public class ProgramacaoControllerTest {
         
         Assert.assertEquals(true,conP.cadastrarProgramacao(prog));
     
+    }
+    
+    @Test
+    public void testProgramacaoPessoaInvalida(){
+        PessoaController conPessoa = new PessoaController();
+        this.pessoa = new Pessoa(-1, "Marcio", 
+                "Tipo", "RA", "email@valido.com", "",//"Instituição", 
+                        "377.894.178-00", "RG");
+        conPessoa.cadastrarPessoa(pessoa);
+        
+        calendar.set(year, month+1, date);
+        this.inicio = calendar.getTime();
+        calendar.set(year, month+2, date);
+        this.fim = calendar.getTime();
+        calendar.set(year, month, date);
+        this.vencimento = calendar.getTime();
+        
+        db = new DadosBancarios ("Agencia2", "Conta", "Tipo", 1,
+                            0);
+        dbCon.cadastrarDadosBancarios(db);
+        
+        this.edicao = new Edicao (inicio, fim, vencimento, 
+                false, "Titulo2","Tema2",db, -1);
+                eCon.excluirEdicao(edicao,"ALL");
+                eCon.cadastrarEdicao(edicao);
+                
+        calendar.set(2001, 02, 01, 12, 00, 01);
+        Timestamp dataInicio = new Timestamp(calendar.getTimeInMillis());
+        calendar.set(2001, 03, 01, 14, 00, 00);
+        Timestamp dataFim =    new Timestamp(calendar.getTimeInMillis());
+        System.out.println(dataInicio + " " + dataFim);
+        prog = new Programacao(-1,dataInicio,500,100,"SALA 02","Palestra", "TESTANDO 2 descricao", 50, dataFim, 15, edicao, pessoa);
+        
+        Assert.assertEquals(true,conP.cadastrarProgramacao(prog));
+        
+    }
+    
+    
+    @Test // Testa se o Joazinhu eh o responsavel pela programaç?o solicitada
+    public void testProgramacaoPessoaValida(){
+        
+        PessoaController conPessoa = new PessoaController();
+        this.pessoa = new Pessoa(-1, "Osvaldo", 
+                "Tipo", "RA", "email@valido.com", "",//"Instituição", 
+                        "377.894.178-00", "RG");
+        conPessoa.cadastrarPessoa(pessoa);
+        
+        calendar.set(year, month+2, date);
+        this.inicio = calendar.getTime();
+        calendar.set(year, month+3, date);
+        this.fim = calendar.getTime();
+        calendar.set(year, month, date);
+        this.vencimento = calendar.getTime();
+        
+        db = new DadosBancarios ("Agencia3", "Conta", "Tipo", 1,
+                            0);
+        dbCon.cadastrarDadosBancarios(db);
+        
+        this.edicao = new Edicao (inicio, fim, vencimento, 
+                false, "Titulo2","Tema2",db, -1);
+                eCon.excluirEdicao(edicao,"ALL");
+                eCon.cadastrarEdicao(edicao);
+                
+        calendar.set(2003, 02, 01, 12, 00, 01);
+        Timestamp dataInicio = new Timestamp(calendar.getTimeInMillis());
+        calendar.set(2004, 02, 01, 14, 00, 00);
+        Timestamp dataFim =    new Timestamp(calendar.getTimeInMillis());
+        System.out.println(dataInicio + " " + dataFim);
+        prog = new Programacao(-1,dataInicio,500,100,"SALA 03","Palestra", "TESTANDO 2 descricao", 50, dataFim, 15, edicao, pessoa);
+        Pessoa pessoa2 = new Pessoa();
+        pessoa2.setIdPessoa(this.prog.getPessoa().getIdPessoa());
+        System.out.println(" proggramacaoidpessoa: "+this.prog.getPessoa().getIdPessoa()+" pessoa :"+ pessoa2.getIdPessoa());
+        ArrayList<Pessoa> list = conPessoa.buscarPessoa(pessoa2, "ID");
+        System.out.println("Controller.ProgramacaoControllerTest.testProgramacaoPessoaValida()");
+        for (Pessoa pessoa1 : list) {
+            System.out.println(pessoa1.getIdPessoa());
+        }
+        Pessoa pessoaTest = list.get(0);
+        boolean x = false;
+        if (pessoa.getIdPessoa() == pessoaTest.getIdPessoa()) x = true;
+       
+        Assert.assertEquals(true,x);
+       
     }
     public ProgramacaoControllerTest() {
     

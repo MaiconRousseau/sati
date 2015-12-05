@@ -29,7 +29,7 @@ public class PessoaModel {
             
             // SQL que vai ser executada
             String query = (
-                    "INSERT INTO Pessoa("
+                    "INSERT INTO pessoa("
                     + "nome, tipo, ra, "
                     + "email, instituicao, cpf, rg"
                     + ")"
@@ -91,18 +91,13 @@ public class PessoaModel {
             
             ResultSet rs;
             PreparedStatement stm;
-         
+            
             switch(tipo) {
-                case "ID":
-                    stm = con.prepareStatement("SELECT * FROM Pessoa where idPessoa = ?");
-                   // System.out.println("ID PESSOA:"+pessoa.getIdPessoa());
-                    stm.setInt(1, pessoa.getIdPessoa());
-                    break;
                 default: 
-                    stm  = con.prepareStatement("SELECT * FROM Pessoa");
+                    stm  = con.prepareStatement("SELECT * FROM pessoa");
                     break;
             }
-
+            
             rs = stm.executeQuery();
                     
             while (rs.next()) {
@@ -215,6 +210,7 @@ public class PessoaModel {
             pessoa.setMessage("\tFalha Técnica\n\t" + e.getMessage());
         }
     }
+
     public static void excluirPessoa(Pessoa pessoa) {
         try {
             // Connect with database
@@ -269,7 +265,7 @@ public class PessoaModel {
             
             // SQL que vai ser executada
             String query = (
-                    "UPDATE Pessoa SET "
+                    "UPDATE pessoa SET "
                     + "nome = ?, "
                     + "tipo = ?, "
                     + "ra = ?, "

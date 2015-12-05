@@ -40,12 +40,14 @@ public class FormTemplate extends javax.swing.JFrame {
         jLInstrucao = new javax.swing.JLabel();
         jPBotoes = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
+        
         jBTAlterar = new javax.swing.JButton();
         jBTSalvar = new javax.swing.JButton();
         jBTExcluir = new javax.swing.JButton();
         jBTCadastrar = new javax.swing.JButton();
         jBTConfirmar = new javax.swing.JButton();
         jBTCancelar = new javax.swing.JButton();
+        
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -88,9 +90,9 @@ public class FormTemplate extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTBBuscaRapida);
 
-        jLBusca.setText("Busca R·pida");
+        jLBusca.setText("Busca Rápida");
 
-        jLInstrucao.setText("InstruÁıes para a pesquisa");
+        jLInstrucao.setText("Instruções para a pesquisa");
 
         javax.swing.GroupLayout jPBuscarLayout = new javax.swing.GroupLayout(jPBuscar);
         jPBuscar.setLayout(jPBuscarLayout);
@@ -123,53 +125,63 @@ public class FormTemplate extends javax.swing.JFrame {
         getContentPane().add(jPBuscar, java.awt.BorderLayout.PAGE_START);
 
         jPBotoes.setPreferredSize(new java.awt.Dimension(600, 50));
-
+        
         jBTAlterar.setText("Alterar");
         jBTAlterar.setEnabled(false);
+        /*
         jBTAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTAlterarActionPerformed(evt);
             }
         });
+        */
 
         jBTSalvar.setText("Salvar");
         jBTSalvar.setEnabled(false);
-        jBTSalvar.addActionListener(new java.awt.event.ActionListener() {
+        /*
+         jBTSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTSalvarActionPerformed(evt);
             }
         });
+         */
 
         jBTExcluir.setText("Excluir");
         jBTExcluir.setEnabled(false);
-        jBTExcluir.addActionListener(new java.awt.event.ActionListener() {
+        /*
+         jBTExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTExcluirActionPerformed(evt);
             }
         });
+         */
 
         jBTCadastrar.setText("Cadastrar");
-        jBTCadastrar.addActionListener(new java.awt.event.ActionListener() {
+        /*
+         jBTCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTCadastrarActionPerformed(evt);
             }
         });
+         */
 
         jBTConfirmar.setText("Confirmar");
         jBTConfirmar.setEnabled(false);
-        jBTConfirmar.addActionListener(new java.awt.event.ActionListener() {
+        /*jBTConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTConfirmarActionPerformed(evt);
             }
         });
+         */
 
         jBTCancelar.setText("Cancelar");
         jBTCancelar.setEnabled(false);
-        jBTCancelar.addActionListener(new java.awt.event.ActionListener() {
+        /*jBTCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTCancelarActionPerformed(evt);
             }
         });
+        */
 
         javax.swing.GroupLayout jPBotoesLayout = new javax.swing.GroupLayout(jPBotoes);
         jPBotoes.setLayout(jPBotoesLayout);
@@ -256,7 +268,7 @@ public class FormTemplate extends javax.swing.JFrame {
     protected void jBTExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBTExcluirActionPerformed
         int confirmOption = 1;
 
-        confirmOption = JOptionPane.showConfirmDialog(null, "Voc√™ realmente deseja excluir estes dados?", "Alerta de exclus√£o de dados", JOptionPane.YES_NO_OPTION);
+        confirmOption = JOptionPane.showConfirmDialog(null, "VocÍ realmente deseja excluir estes dados?", "Alerta de exclus„o de dados", JOptionPane.YES_NO_OPTION);
                 
         if (confirmOption == 1)
             return;
