@@ -1,0 +1,1277 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<Workbook xmlns:html='http://www.w3.org/TR/REC-html40'
+          xmlns:o='urn:schemas-microsoft-com:office:office'
+          xmlns:ss='urn:schemas-microsoft-com:office:spreadsheet'
+          xmlns:x='urn:schemas-microsoft-com:office:excel'
+          xmlns='urn:schemas-microsoft-com:office:spreadsheet'>
+  <DocumentProperties xmlns='urn:schemas-microsoft-com:office:office'>
+    <LastAuthor> Lucas Fernandes</LastAuthor>
+    <Created>2015-12-05 19:07:21 UTC</Created>
+    <LastSaved>%= Time.now.utc %></LastSaved>
+    <Version>1.0</Version>
+  </DocumentProperties>
+  <OfficeDocumentSettings xmlns='urn:schemas-microsoft-com:office:office'>
+    <AllowPNG />
+  </OfficeDocumentSettings>
+  <ExcelWorkbook xmlns='urn:schemas-microsoft-com:office:excel'>
+    <ProtectStructure>False</ProtectStructure>
+    <ProtectWindows>False</ProtectWindows>
+  </ExcelWorkbook>
+  <Styles>
+    <Style ss:ID='Default' ss:Name='Normal'>
+      <Alignment ss:Vertical='Top' ss:WrapText='1' />
+      <Borders />
+      <Font ss:Color='#000000' ss:FontName='Calibri' ss:Size='12' x:Family='Swiss' />
+      <Interior />
+      <NumberFormat />
+      <Protection />
+    </Style>
+    <Style ss:ID='title'>
+      <Alignment ss:Vertical='Bottom' ss:WrapText='1' />
+      <Font ss:Bold='1' ss:Color='#000000' ss:FontName='Calibri' ss:Size='15' />
+    </Style>
+    <Style ss:ID='top-base-stats'>
+      <Alignment ss:Horizontal='Right' ss:Vertical='Center' ss:WrapText='1' />
+      <Font ss:Bold='0' ss:Color='#000000' ss:FontName='Calibri' ss:Size='11' />
+    </Style>
+    <Style ss:ID='table-header'>
+      <Alignment ss:Horizontal='Center' ss:Vertical='Center' ss:WrapText='1' />
+      <Font ss:Bold='1' ss:Color='#000000' ss:FontName='Calibri' ss:Size='12' />
+      <Interior ss:Color='#CCFFFF' ss:Pattern='Solid' />
+    </Style>
+    <Style ss:ID='numeric'>
+      <Alignment ss:Horizontal='Right' ss:Vertical='Top'/>
+      <Font ss:Bold='0' ss:Color='#000000' ss:FontName='Calibri' ss:Size='12' />
+    </Style>
+    <Style ss:ID='theme-summary'>
+      <Alignment ss:Horizontal='Left' ss:Vertical='Top' ss:WrapText='1' />
+      <Font ss:Color='#000000' ss:FontName='Calibri' ss:Size='12' />
+      <Interior ss:Color='#C0C0C0' ss:Pattern='Solid' />
+    </Style>
+    <Style ss:ID='theme-total'>
+      <Alignment ss:Horizontal='Right' ss:Vertical='Bottom' ss:WrapText='1' />
+      <Font ss:Bold='1' ss:Color='#000000' ss:FontName='Calibri' ss:Size='12' />
+      <Interior ss:Color='#C0C0C0' ss:Pattern='Solid' />
+    </Style>
+    <Style ss:ID='theme-cell'>
+      <Alignment ss:Vertical='Top' ss:WrapText='1' />
+      <Font ss:Bold='1' ss:Color='#000000' ss:FontName='Calibri' ss:Size='12' />
+    </Style>
+    <Style ss:ID='backlog-summary'>
+      <Alignment ss:Horizontal='Left' ss:Vertical='Top' ss:WrapText='1' />
+      <Font ss:Bold='1' ss:Color='#000000' ss:FontName='Calibri' ss:Size='14' />
+      <Interior ss:Color='#CCFFFF' ss:Pattern='Solid' />
+    </Style>
+    <Style ss:ID='backlog-total'>
+      <Alignment ss:Horizontal='Right' ss:Vertical='Bottom' ss:WrapText='1' />
+      <Font ss:Bold='1' ss:Color='#000000' ss:FontName='Calibri' ss:Size='14' />
+      <Interior ss:Color='#CCFFFF' ss:Pattern='Solid' />
+    </Style>
+          <Style ss:ID='story-color-0'>
+        <Borders>
+          <Border ss:Position='Left' ss:Color='#ffff00' ss:Weight='3' ss:LineStyle='Continuous' />
+        </Borders>
+      </Style>
+
+  </Styles>
+  <Worksheet ss:Name='Backlog Report'>
+  <Table>
+    <Column ss:AutoFitWidth="1" ss:Width="90" /> <!--Theme-->
+    <Column ss:AutoFitWidth="1" ss:Width="45" /> <!--ID-->
+    <Column ss:AutoFitWidth="1" ss:Width="240" /> <!--User Story-->
+    <Column ss:AutoFitWidth="1" ss:Width="240" /> <!--Acceptance Criteria-->
+    <Column ss:AutoFitWidth="1" ss:Width="240" /> <!--Comments-->
+    <Column ss:AutoFitWidth="1" ss:Width="50" /> <!--Sprint-->
+    <Column ss:AutoFitWidth="1" ss:Width="90" /> <!--Status-->
+      <Column ss:AutoFitWidth="1" ss:Width="45" /> <!--Score -->
+      <Column ss:AutoFitWidth="1" ss:Width="45" /> <!--Cost-->
+      <Column ss:AutoFitWidth="1" ss:Width="45" /> <!--Days-->
+    <Row ss:AutoFitHeight='0' ss:Height='18'>
+      <Cell ss:MergeAcross='3' ss:StyleID='title'>
+        <Data ss:Type='String'>SATI</Data>
+      </Cell>
+      <Cell ss:MergeAcross='4' ss:StyleID='top-base-stats'>
+        <Data ss:Type='String'>Taxa: R$ 1, Velocity: 2.0</Data>
+      </Cell>
+    </Row>
+    <Row>
+      <Cell ss:StyleID='table-header'>
+        <Data ss:Type='String'>Tema</Data>
+      </Cell>
+      <Cell ss:StyleID='table-header'>
+        <Data ss:Type='String'>ID</Data>
+      </Cell>
+      <Cell ss:StyleID='table-header'>
+        <Data ss:Type='String'>História de Usuário</Data>
+      </Cell>
+      <Cell ss:StyleID='table-header'>
+        <Data ss:Type='String'>Critérios de Aceitação</Data>
+      </Cell>
+      <Cell ss:StyleID='table-header'>
+        <Data ss:Type='String'>Comentários</Data>
+      </Cell>
+      <Cell ss:StyleID='table-header'>
+        <Data ss:Type='String'>Sprint</Data>
+      </Cell>
+      <Cell ss:StyleID='table-header'>
+        <Data ss:Type='String'>Status</Data>
+      </Cell>
+        <Cell ss:StyleID='table-header'>
+          <Data ss:Type='String'><span class="translation_missing" title="translation missing: pt.backlog.points">Points</span></Data>
+        </Cell>
+        <Cell ss:StyleID='table-header'>
+          <Data ss:Type='String'>Custo</Data>
+        </Cell>
+        <Cell ss:StyleID='table-header'>
+          <Data ss:Type='String'>Dias</Data>
+        </Cell>
+    </Row>
+        <Row>
+      <Cell ss:MergeDown='5' ss:StyleID='theme-cell'>
+        <Data ss:Type='String'>Cadastro</Data>
+      </Cell>
+      <Cell ss:Index='2' ss:StyleID=&#x27;story-color-0&#x27;>
+  <Data ss:Type='String'>CAD1</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> cadastrar edição da SATI
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> o evento do ano seja diferenciado</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) A edição deve possuir um tema e um título&#10;&#13;b) A data de início deve ser menor que a data final do evento&#10;&#13;c) Não pode haver duas edições no mesmo ano&#10;&#13;d) A edição precisa de dados bancários&#10;&#13;e) Confirmação do evento&#10;&#13;f) O evento deve possuir uma data de vencimento para o pagamento das inscrições&#10;&#13;g) Por definição, a agenda não está definida no cadastro</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>O evento é anual, sendo assim, somente uma edição por ano é possível. O evento precisa ter todas as programações definidas para que as inscrições sejam feitas.</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 1</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>21.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 11</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>10.5</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell ss:Index='2' ss:StyleID=&#x27;story-color-0&#x27;>
+  <Data ss:Type='String'>CAD2</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> cadastrar programações
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> a agenda do evento seja criada</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Não pode haver duas programações no mesmo local no mesmo horário&#10;&#13;b) Responsável pela programação&#10;&#13;c) Carga horário&#10;&#13;d) Determinar o custo da programação&#10;&#13;e) Data da programação deve estar entre a data de início e final da edição</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Nenhuma programação pode ser adicionada a um evento após a agenda estar definida.</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 1</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>8.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 4</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>4.0</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell ss:Index='2' ss:StyleID=&#x27;story-color-0&#x27;>
+  <Data ss:Type='String'>CAD5</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> cadastrar responsável de programação
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> possam ministrar uma programação</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) O responsável só pode estar em uma programação na mesma hora&#10;&#13;b) Valor cobrado pelo responsável</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'></Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 1</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>5.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 3</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>2.5</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell ss:Index='2' ss:StyleID=&#x27;story-color-0&#x27;>
+  <Data ss:Type='String'>CAD3</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> participante
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> me cadastrar no sistema
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> possa me inscrever em programações</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Documento de identificação válido&#10;&#13;b) E-mail deve ser único&#10;&#13;c) Instituição (Caso não seja a UTFPR)&#10;&#13;d) Registro Acadêmico (Opcional)</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'></Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 2</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>8.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 4</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>4.0</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell ss:Index='2'>
+  <Data ss:Type='String'>CAD4</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> participante
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> me inscrever em programações
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> possa participar do evento</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Cadastro do participante no sistema é necessário&#10;&#13;b) Agenda pré-elaborada do evento deve ser disponibilizada&#10;&#13;c) Informações da programação&#10;&#13;d) Uma inscrição é feita para cada programação&#10;&#13;e) Programação não deve estar lotada&#10;&#13;f) Responsável pela programação não pode participar da mesma</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Para participar do evento, o participante tem que se inscrever em ao menos uma(1) atividade.</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 2</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>8.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 4</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>4.0</Data>
+  </Cell>
+
+    </Row>
+  <Row>
+    <Cell ss:Index='2' ss:MergeAcross='2' ss:StyleID='theme-summary'>
+      <Data ss:Type='String'>Total do tema &#x27;Cadastro&#x27;</Data>
+    </Cell>
+    <Cell ss:MergeAcross='4' ss:StyleID='theme-total'>
+      <Data ss:Type='String'>50.0 pontos / R$ 25 / 25.0 dias</Data>
+    </Cell>
+  </Row>
+  <Row ss:AutoFitHeight='0' ss:Height='5'>
+    <Cell ss:MergeAcross='9' />
+  </Row>
+    <Row>
+      <Cell ss:MergeDown='4' ss:StyleID='theme-cell'>
+        <Data ss:Type='String'>Gerenciamento</Data>
+      </Cell>
+      <Cell ss:Index='2'>
+  <Data ss:Type='String'>GER1</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> gerenciar pessoas
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> controlar as informações do sistema</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Alterar dados dos cadastros de pessoas&#10;&#13;b) Apagar dados de pessoas&#10;&#13;c) Pesquisar dados de pessoas</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Pessoas são pesquisadores, profissionais atuantes em áreas, professores e estudantes</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 2</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>8.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 4</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>4.0</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell ss:Index='2'>
+  <Data ss:Type='String'>GER2</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> gerenciar programações
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> controlar as informações das programações</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Alterar dados do cadastro de uma programação&#10;&#13;b) Apagar dados do cadastro de uma programação&#10;&#13;c) Pesquisar dados da programação</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'></Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 2</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>8.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 4</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>4.0</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell ss:Index='2'>
+  <Data ss:Type='String'>GER3</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> gerenciar edições
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> controlar as informações das edições</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Alterar dados do cadastro de uma edição&#10;&#13;b) Apagar dados do cadastro de uma edição&#10;&#13;c) Pesquisar dados da edição</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'></Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 2</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>8.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 4</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>4.0</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell ss:Index='2'>
+  <Data ss:Type='String'>GER4</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> controlar a presença dos alunos nas programações
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> conferir o pagamento das inscrições</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Participante somente pode comparecer se tiver pago a inscrição até a data de vencimento</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'></Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 3</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>5.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 3</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>2.5</Data>
+  </Cell>
+
+    </Row>
+  <Row>
+    <Cell ss:Index='2' ss:MergeAcross='2' ss:StyleID='theme-summary'>
+      <Data ss:Type='String'>Total do tema &#x27;Gerenciamento&#x27;</Data>
+    </Cell>
+    <Cell ss:MergeAcross='4' ss:StyleID='theme-total'>
+      <Data ss:Type='String'>29.0 pontos / R$ 15 / 14.5 dias</Data>
+    </Cell>
+  </Row>
+  <Row ss:AutoFitHeight='0' ss:Height='5'>
+    <Cell ss:MergeAcross='9' />
+  </Row>
+    <Row>
+      <Cell ss:MergeDown='1' ss:StyleID='theme-cell'>
+        <Data ss:Type='String'>Relatórios</Data>
+      </Cell>
+      <Cell ss:Index='2'>
+  <Data ss:Type='String'>RER1</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> participante
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> receber certificado
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> comprove a participação</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Participante tem que ter pago a taxa de inscrição para receber o certificado&#10;&#13;b) Participante tem que ter comparecido na atividade&#10;&#13;c) Certificado deve conter a carga horária da atividade&#10;&#13;d) Certificado pode ser impresso ou encaminhado por e-mail</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Certificado deve possui o nome do evento, nome do aluno, nome da programação, data de realização, e responsáveis pela atividade</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 3</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>13.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 7</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>6.5</Data>
+  </Cell>
+
+    </Row>
+  <Row>
+    <Cell ss:Index='2' ss:MergeAcross='2' ss:StyleID='theme-summary'>
+      <Data ss:Type='String'>Total do tema &#x27;Relatórios&#x27;</Data>
+    </Cell>
+    <Cell ss:MergeAcross='4' ss:StyleID='theme-total'>
+      <Data ss:Type='String'>13.0 pontos / R$ 7 / 6.5 dias</Data>
+    </Cell>
+  </Row>
+  <Row ss:AutoFitHeight='0' ss:Height='5'>
+    <Cell ss:MergeAcross='9' />
+  </Row>
+    <Row>
+      <Cell ss:MergeDown='3' ss:StyleID='theme-cell'>
+        <Data ss:Type='String'>Financeiro</Data>
+      </Cell>
+      <Cell ss:Index='2'>
+  <Data ss:Type='String'>FIN1</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> um relatório financeiro
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> possa verificar o saldo</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Verificar total de entrada e saída&#10;&#13;b) Verificar todas as transações do evento </Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Transações são as inscrições pagas, as despesas para que a programação ocorresse, arrecadação de fundos e gastos envolvidos.</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 3</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>8.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 4</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>4.0</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell ss:Index='2'>
+  <Data ss:Type='String'>FIN2</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> participante
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> gerar o boleto
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> possa pagar minha inscrição</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Vencimento no dia de início do evento&#10;&#13;b) Desconto para pagamento com 15 dias antecedência&#10;&#13;c) Desconto para pagamento com 30 dias antecedência &#10;&#13;d) Discriminação dos valores envolvidos na composição do boleto&#10;&#13;e) Somente Participações do mesmo evento podem ser unidas em um mesmo boleto</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Informação bancária da edição são necessárias;      Cada programação tem o seu próprio valor;</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 3</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>13.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 7</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>6.5</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell ss:Index='2'>
+  <Data ss:Type='String'>FIN3</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> confirmar o pagamento de uma inscrição
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> o participante frequente as programações</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Confirmar a data de pagamento do boleto&#10;&#13;b) Alterar o status da inscrição</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>O estudante deve apresentar o comprovante de pagamento</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 4</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>5.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 3</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>2.5</Data>
+  </Cell>
+
+    </Row>
+  <Row>
+    <Cell ss:Index='2' ss:MergeAcross='2' ss:StyleID='theme-summary'>
+      <Data ss:Type='String'>Total do tema &#x27;Financeiro&#x27;</Data>
+    </Cell>
+    <Cell ss:MergeAcross='4' ss:StyleID='theme-total'>
+      <Data ss:Type='String'>26.0 pontos / R$ 13 / 13.0 dias</Data>
+    </Cell>
+  </Row>
+  <Row ss:AutoFitHeight='0' ss:Height='5'>
+    <Cell ss:MergeAcross='9' />
+  </Row>
+    <Row>
+      <Cell ss:MergeDown='2' ss:StyleID='theme-cell'>
+        <Data ss:Type='String'>Autenticação</Data>
+      </Cell>
+      <Cell ss:Index='2'>
+  <Data ss:Type='String'>AUO1</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> entra no sistema
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> interagir com o sistema</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Login e senha válidos são necessários</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'></Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 4</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>5.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 3</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>2.5</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell ss:Index='2'>
+  <Data ss:Type='String'>AUO3</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> adicionar outros administradores
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> possam colaborar na atualização das informações da SATI</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Criar novo usuário&#10;&#13;b) Login único&#10;&#13;c) Senha forte é necessária </Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'></Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 4</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>5.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 3</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>2.5</Data>
+  </Cell>
+
+    </Row>
+  <Row>
+    <Cell ss:Index='2' ss:MergeAcross='2' ss:StyleID='theme-summary'>
+      <Data ss:Type='String'>Total do tema &#x27;Autenticação&#x27;</Data>
+    </Cell>
+    <Cell ss:MergeAcross='4' ss:StyleID='theme-total'>
+      <Data ss:Type='String'>10.0 pontos / R$ 5 / 5.0 dias</Data>
+    </Cell>
+  </Row>
+  <Row ss:AutoFitHeight='0' ss:Height='5'>
+    <Cell ss:MergeAcross='9' />
+  </Row>
+
+    <Row ss:AutoFitHeight='0' ss:Height='18'>
+      <Cell ss:MergeAcross='3' ss:StyleID='backlog-summary'>
+        <Data ss:Type='String'>Total do Backlog &#x27;SATI&#x27;</Data>
+      </Cell>
+      <Cell ss:MergeAcross='4' ss:StyleID='backlog-total'>
+        <Data ss:Type='String'>128.0 pontos / R$ 64 / 64.0 dias</Data>
+      </Cell>
+    </Row>
+  </Table>
+  <WorksheetOptions xmlns='urn:schemas-microsoft-com:office:excel'>
+    <PageLayoutZoom>0</PageLayoutZoom>
+    <Selected />
+    <Panes />
+    <ProtectObjects>False</ProtectObjects>
+    <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+</Worksheet>
+  <Worksheet ss:Name='Story List'>
+  <Table>
+    <Column ss:AutoFitWidth="1" ss:Width="90" /> <!--Theme-->
+    <Column ss:AutoFitWidth="1" ss:Width="45" /> <!--ID-->
+    <Column ss:AutoFitWidth="1" ss:Width="240" /> <!--User Story-->
+    <Column ss:AutoFitWidth="1" ss:Width="240" /> <!--Acceptance Criteria-->
+    <Column ss:AutoFitWidth="1" ss:Width="240" /> <!--Comments-->
+    <Column ss:AutoFitWidth="1" ss:Width="50" /> <!--Sprint-->
+    <Column ss:AutoFitWidth="1" ss:Width="50" /> <!--Status-->
+      <Column ss:AutoFitWidth="1" ss:Width="45" /> <!--Score -->
+      <Column ss:AutoFitWidth="1" ss:Width="45" /> <!--Cost-->
+      <Column ss:AutoFitWidth="1" ss:Width="45" /> <!--Days-->
+    <Row>
+      <Cell ss:StyleID='table-header'>
+        <Data ss:Type='String'>Tema</Data>
+      </Cell>
+      <Cell ss:StyleID='table-header'>
+        <Data ss:Type='String'>ID</Data>
+      </Cell>
+      <Cell ss:StyleID='table-header'>
+        <Data ss:Type='String'>História de Usuário</Data>
+      </Cell>
+      <Cell ss:StyleID='table-header'>
+        <Data ss:Type='String'>Critérios de Aceitação</Data>
+      </Cell>
+      <Cell ss:StyleID='table-header'>
+        <Data ss:Type='String'>Comentários</Data>
+      </Cell>
+      <Cell ss:StyleID='table-header'>
+        <Data ss:Type='String'>Sprint</Data>
+      </Cell>
+      <Cell ss:StyleID='table-header'>
+        <Data ss:Type='String'>Status</Data>
+      </Cell>
+        <Cell ss:StyleID='table-header'>
+          <Data ss:Type='String'><span class="translation_missing" title="translation missing: pt.backlog.points">Points</span></Data>
+        </Cell>
+        <Cell ss:StyleID='table-header'>
+          <Data ss:Type='String'>Custo</Data>
+        </Cell>
+        <Cell ss:StyleID='table-header'>
+          <Data ss:Type='String'>Dias</Data>
+        </Cell>
+    </Row>
+        <Row>
+      <Cell>
+  <Data ss:Type='String'>Cadastro</Data>
+</Cell>
+<Cell ss:Index='2' ss:StyleID=&#x27;story-color-0&#x27;>
+  <Data ss:Type='String'>CAD1</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> cadastrar edição da SATI
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> o evento do ano seja diferenciado</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) A edição deve possuir um tema e um título&#10;&#13;b) A data de início deve ser menor que a data final do evento&#10;&#13;c) Não pode haver duas edições no mesmo ano&#10;&#13;d) A edição precisa de dados bancários&#10;&#13;e) Confirmação do evento&#10;&#13;f) O evento deve possuir uma data de vencimento para o pagamento das inscrições&#10;&#13;g) Por definição, a agenda não está definida no cadastro</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>O evento é anual, sendo assim, somente uma edição por ano é possível. O evento precisa ter todas as programações definidas para que as inscrições sejam feitas.</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 1</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>21.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 11</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>10.5</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell>
+  <Data ss:Type='String'>Cadastro</Data>
+</Cell>
+<Cell ss:Index='2' ss:StyleID=&#x27;story-color-0&#x27;>
+  <Data ss:Type='String'>CAD2</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> cadastrar programações
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> a agenda do evento seja criada</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Não pode haver duas programações no mesmo local no mesmo horário&#10;&#13;b) Responsável pela programação&#10;&#13;c) Carga horário&#10;&#13;d) Determinar o custo da programação&#10;&#13;e) Data da programação deve estar entre a data de início e final da edição</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Nenhuma programação pode ser adicionada a um evento após a agenda estar definida.</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 1</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>8.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 4</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>4.0</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell>
+  <Data ss:Type='String'>Cadastro</Data>
+</Cell>
+<Cell ss:Index='2' ss:StyleID=&#x27;story-color-0&#x27;>
+  <Data ss:Type='String'>CAD5</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> cadastrar responsável de programação
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> possam ministrar uma programação</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) O responsável só pode estar em uma programação na mesma hora&#10;&#13;b) Valor cobrado pelo responsável</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'></Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 1</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>5.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 3</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>2.5</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell>
+  <Data ss:Type='String'>Cadastro</Data>
+</Cell>
+<Cell ss:Index='2' ss:StyleID=&#x27;story-color-0&#x27;>
+  <Data ss:Type='String'>CAD3</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> participante
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> me cadastrar no sistema
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> possa me inscrever em programações</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Documento de identificação válido&#10;&#13;b) E-mail deve ser único&#10;&#13;c) Instituição (Caso não seja a UTFPR)&#10;&#13;d) Registro Acadêmico (Opcional)</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'></Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 2</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>8.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 4</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>4.0</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell>
+  <Data ss:Type='String'>Cadastro</Data>
+</Cell>
+<Cell ss:Index='2'>
+  <Data ss:Type='String'>CAD4</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> participante
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> me inscrever em programações
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> possa participar do evento</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Cadastro do participante no sistema é necessário&#10;&#13;b) Agenda pré-elaborada do evento deve ser disponibilizada&#10;&#13;c) Informações da programação&#10;&#13;d) Uma inscrição é feita para cada programação&#10;&#13;e) Programação não deve estar lotada&#10;&#13;f) Responsável pela programação não pode participar da mesma</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Para participar do evento, o participante tem que se inscrever em ao menos uma(1) atividade.</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 2</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>8.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 4</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>4.0</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell>
+  <Data ss:Type='String'>Gerenciamento</Data>
+</Cell>
+<Cell ss:Index='2'>
+  <Data ss:Type='String'>GER1</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> gerenciar pessoas
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> controlar as informações do sistema</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Alterar dados dos cadastros de pessoas&#10;&#13;b) Apagar dados de pessoas&#10;&#13;c) Pesquisar dados de pessoas</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Pessoas são pesquisadores, profissionais atuantes em áreas, professores e estudantes</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 2</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>8.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 4</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>4.0</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell>
+  <Data ss:Type='String'>Gerenciamento</Data>
+</Cell>
+<Cell ss:Index='2'>
+  <Data ss:Type='String'>GER2</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> gerenciar programações
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> controlar as informações das programações</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Alterar dados do cadastro de uma programação&#10;&#13;b) Apagar dados do cadastro de uma programação&#10;&#13;c) Pesquisar dados da programação</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'></Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 2</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>8.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 4</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>4.0</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell>
+  <Data ss:Type='String'>Gerenciamento</Data>
+</Cell>
+<Cell ss:Index='2'>
+  <Data ss:Type='String'>GER3</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> gerenciar edições
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> controlar as informações das edições</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Alterar dados do cadastro de uma edição&#10;&#13;b) Apagar dados do cadastro de uma edição&#10;&#13;c) Pesquisar dados da edição</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'></Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 2</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>8.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 4</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>4.0</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell>
+  <Data ss:Type='String'>Gerenciamento</Data>
+</Cell>
+<Cell ss:Index='2'>
+  <Data ss:Type='String'>GER4</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> controlar a presença dos alunos nas programações
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> conferir o pagamento das inscrições</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Participante somente pode comparecer se tiver pago a inscrição até a data de vencimento</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'></Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 3</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>5.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 3</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>2.5</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell>
+  <Data ss:Type='String'>Relatórios</Data>
+</Cell>
+<Cell ss:Index='2'>
+  <Data ss:Type='String'>RER1</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> participante
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> receber certificado
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> comprove a participação</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Participante tem que ter pago a taxa de inscrição para receber o certificado&#10;&#13;b) Participante tem que ter comparecido na atividade&#10;&#13;c) Certificado deve conter a carga horária da atividade&#10;&#13;d) Certificado pode ser impresso ou encaminhado por e-mail</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Certificado deve possui o nome do evento, nome do aluno, nome da programação, data de realização, e responsáveis pela atividade</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 3</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>13.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 7</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>6.5</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell>
+  <Data ss:Type='String'>Financeiro</Data>
+</Cell>
+<Cell ss:Index='2'>
+  <Data ss:Type='String'>FIN1</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> um relatório financeiro
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> possa verificar o saldo</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Verificar total de entrada e saída&#10;&#13;b) Verificar todas as transações do evento </Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Transações são as inscrições pagas, as despesas para que a programação ocorresse, arrecadação de fundos e gastos envolvidos.</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 3</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>8.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 4</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>4.0</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell>
+  <Data ss:Type='String'>Financeiro</Data>
+</Cell>
+<Cell ss:Index='2'>
+  <Data ss:Type='String'>FIN2</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> participante
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> gerar o boleto
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> possa pagar minha inscrição</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Vencimento no dia de início do evento&#10;&#13;b) Desconto para pagamento com 15 dias antecedência&#10;&#13;c) Desconto para pagamento com 30 dias antecedência &#10;&#13;d) Discriminação dos valores envolvidos na composição do boleto&#10;&#13;e) Somente Participações do mesmo evento podem ser unidas em um mesmo boleto</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Informação bancária da edição são necessárias;      Cada programação tem o seu próprio valor;</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 3</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>13.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 7</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>6.5</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell>
+  <Data ss:Type='String'>Financeiro</Data>
+</Cell>
+<Cell ss:Index='2'>
+  <Data ss:Type='String'>FIN3</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> confirmar o pagamento de uma inscrição
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> o participante frequente as programações</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Confirmar a data de pagamento do boleto&#10;&#13;b) Alterar o status da inscrição</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>O estudante deve apresentar o comprovante de pagamento</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 4</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>5.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 3</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>2.5</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell>
+  <Data ss:Type='String'>Autenticação</Data>
+</Cell>
+<Cell ss:Index='2'>
+  <Data ss:Type='String'>AUO1</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> entra no sistema
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> interagir com o sistema</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Login e senha válidos são necessários</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'></Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 4</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>5.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 3</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>2.5</Data>
+  </Cell>
+
+    </Row>
+    <Row>
+      <Cell>
+  <Data ss:Type='String'>Autenticação</Data>
+</Cell>
+<Cell ss:Index='2'>
+  <Data ss:Type='String'>AUO3</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'><Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Como</Font> administrador
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Eu quero</Font> adicionar outros administradores
+&#10;&#13;<Font html:Color="#999999" xmlns="http://www.w3.org/TR/REC-html40">Para que</Font> possam colaborar na atualização das informações da SATI</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>a) Criar novo usuário&#10;&#13;b) Login único&#10;&#13;c) Senha forte é necessária </Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'></Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>Sprint 4</Data>
+</Cell>
+<Cell>
+  <Data ss:Type='String'>To do</Data>
+</Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>5.0</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>R$ 3</Data>
+  </Cell>
+  <Cell ss:StyleID='numeric'>
+    <Data ss:Type='String'>2.5</Data>
+  </Cell>
+
+    </Row>
+
+  </Table>
+  <WorksheetOptions xmlns='urn:schemas-microsoft-com:office:excel'>
+    <PageLayoutZoom>0</PageLayoutZoom>
+    <Selected />
+    <Panes />
+    <ProtectObjects>False</ProtectObjects>
+    <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+  <AutoFilter x:Range='R1C1:R1C10' xmlns='urn:schemas-microsoft-com:office:excel'></AutoFilter>
+</Worksheet>
+</Workbook>

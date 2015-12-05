@@ -72,10 +72,9 @@ public class EdicaoController {
             //System.out.println(edicao.getMessage());
             return false;
         }
+       
         
-        boolean res = edicaoModel.cadastrarEdicao(edicao);
-        
-        return res;
+        return edicaoModel.cadastrarEdicao(edicao);
         
     }
     

@@ -93,6 +93,9 @@ public class PessoaModel {
             PreparedStatement stm;
             
             switch(tipo) {
+                case "ID": 
+                    stm  = con.prepareStatement("SELECT * FROM pessoa");
+                    break;
                 default: 
                     stm  = con.prepareStatement("SELECT * FROM pessoa");
                     break;

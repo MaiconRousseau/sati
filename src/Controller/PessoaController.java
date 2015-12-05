@@ -26,74 +26,64 @@ public class PessoaController {
     // Altera a mensagem do objeto para especificar os erros
     private boolean verificarAtributos(Pessoa pessoa) {
         
-        String mensagem = "";
-        if(pessoa.getNome().equals(""))
-            mensagem = mensagem.concat("Nome não pode estar vazio\n");
-        //if(pessoa.getRg().equals("") || pessoa.getRg().equals("12.345.678-X"))
-        if(pessoa.getTipo().equals(""))
-            mensagem = mensagem.concat("Tipo não pode estar vazio\n");
         
-        if(pessoa.getRg().equals(""))
-            mensagem = mensagem.concat("RG não pode estar vazio\n");
-        if(pessoa.getCpf().equals(""))
-            mensagem = mensagem.concat("CPF não pode estar vazio\n");
-        
-        if(pessoa.getEmail().equals(""))
-            mensagem = mensagem.concat("Email não pode estar vazio\n");
+        if(     pessoa.getNome() == null ||  pessoa.getTipo() == null ||
+                pessoa.getRg() == null || pessoa.getCpf() == null ||
+                pessoa.getEmail() == null || 
+                ( pessoa.getRa() == null && pessoa.getInstituicao() == null ) ||
+                
+                pessoa.getNome().equals("") || pessoa.getTipo().equals("") ||
+                pessoa.getRg().equals("") || pessoa.getCpf().equals("") ||
+                pessoa.getEmail().equals("") ||
+                ( pessoa.getInstituicao().equals("") &&  pessoa.getRa().equals("") )
+                ) 
+        {
+            return false;
+        }
         else {
-            if(!validar( pessoa.getEmail() ))
-                mensagem = mensagem.concat("Email informado é inválido\n");
+            
+            if(     !validarEmail( pessoa.getEmail())
+                )
+                return false;
+            
+            if( !pessoa.getRa().equals("") && !pessoa.getRa().matches("[0-9]{7}")
+                )
+                return false;
+            
+            pessoa.setInstituicao("UTFPR");
+            
+            String tipo = pessoa.getTipo();
+            if (    !tipo.equalsIgnoreCase("aluno") &&
+                    !tipo.equalsIgnoreCase("professor") &&
+                    !tipo.equalsIgnoreCase("servidor") &&
+                    !tipo.equalsIgnoreCase("outros")
+                    )
+                return false;
+            
+            //String cpf = pessoa.getCpf().replaceAll("(\\.|-)", "");
+            boolean validaCPF = ValidaCPF.isCPF(pessoa.getCpf());
+            
+            return validaCPF;
         }
         
-        if( pessoa.getInstituicao().equals("") &&  pessoa.getRa().equals(""))
-            mensagem = mensagem.concat("Instituição ou RA devem ser informados\n");
         
-        if( !pessoa.getInstituicao().equals("") &&  !pessoa.getRa().equals(""))
-            mensagem = mensagem.concat("Instituição e RA não podem existir ao mesmo tempo\n");
-
-        String cpf = pessoa.getCpf().replaceAll("(\\.|-)", "");
-       
-        boolean validaCPF = ValidaCPF.isCPF(cpf);
-        if(!validaCPF)
-            mensagem = mensagem.concat("CPF informado é inválido\n");
-        
-        // A nova mensagem dentro do objeto será a mensagem atual 
-        // com as novas informações
-        // Verifica de erro para quando mensagem estiver vazia
-        String mensagemAtual = ( pessoa.getMessage() == null )? "": pessoa.getMessage();
-        String mensagemNova = mensagemAtual.concat(mensagem);
-        pessoa.setMessage(mensagemNova);
-        
-        
-        // Caso alguma regra não tenha sido cumprida, há erro e a mensagem não é vazia
-        return mensagem.equals("");
     }
 
     public boolean cadastrarPessoa(Pessoa pessoa) {
         
-        boolean verifica = this.verificarAtributos(pessoa);
-        
-        if(!verifica) {
-            pessoa.setError(true);
-            System.out.println(pessoa.getMessage());
-            // Algum dado informado é inválido
+        if(!this.verificarAtributos(pessoa)) 
             return false;
-        }
-        boolean res = pessoaM.cadastrarPessoa(pessoa);
         
-        System.out.println(pessoa.getMessage());
-        return res;
+        return pessoaM.cadastrarPessoa(pessoa);
     }
     
-    public static boolean validar(String email){
+    public static boolean validarEmail(String email){
         boolean isEmailIdValid = false;
-        if (email != null && email.length() > 0) {
-            String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-            Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(email);
-            if (matcher.matches()) {
-                isEmailIdValid = true;
-            }
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+        if (matcher.matches()) {
+            isEmailIdValid = true;
         }
         return isEmailIdValid;
     }
