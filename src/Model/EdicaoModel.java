@@ -167,6 +167,11 @@ public class EdicaoModel{
             */
             int cont = 1;
             switch(tipo) {
+                case "ID": 
+                    stm  = con.prepareStatement("SELECT * FROM edicao WHERE idEdicao = ?");
+                    System.out.println(edicao.getIdEdicao());
+                    stm.setInt(cont++, edicao.getIdEdicao());
+                    break;
                 case "ANO":
                     stm  = con.prepareStatement("SELECT * FROM edicao "
                             + "WHERE EXTRACT(YEAR from dataInicio) = ?");
@@ -204,7 +209,7 @@ public class EdicaoModel{
             edicao.setError(true);
             edicao.setMessage("\tFalha Técnica\n\t" + e.getMessage());
             System.out.println(e.getMessage());
-            return null;
+            return new ArrayList();
         }
     }
     

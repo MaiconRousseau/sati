@@ -28,7 +28,7 @@ public class DadosBancariosController {
                 )
             return false;
         
-        return dadosBancarios.getCarteira() >= 0;
+        return dadosBancarios.getCarteira() > 0;
     }
 
     public boolean cadastrarDadosBancarios(DadosBancarios dadosBancarios) {

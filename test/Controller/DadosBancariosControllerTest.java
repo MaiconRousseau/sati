@@ -30,30 +30,6 @@ public class DadosBancariosControllerTest {
     }
 
     @Test
-    public void verificarAtributosCorreto() {
-        db = new DadosBancarios ("Agencia", "Conta", "Tipo", 1,
-                            0);
-        
-        Assert.assertEquals(true, dbCon.verificarAtributos(db));
-    }
-    
-    @Test
-    public void verificarAtributosNenhumCorreto() {
-        db = new DadosBancarios ("", "", "", 0,
-                            0);
-        
-        Assert.assertEquals(false, dbCon.verificarAtributos(db));
-    }
-    
-    @Test
-    public void verificarAtributosSemAgencia() {
-        db = new DadosBancarios ("", "Conta", "Tipo", 1,
-                            0);
-        
-        Assert.assertEquals(false, dbCon.verificarAtributos(db));
-    }
-
-    @Test
     public void cadastrarCorreto() {
         db = new DadosBancarios ("Agencia", "Conta", "Tipo", 1,
                             0);
@@ -61,12 +37,85 @@ public class DadosBancariosControllerTest {
         Assert.assertEquals(true, dbCon.cadastrarDadosBancarios(db));
     }
     
+    
     @Test
-    public void cadastrarIncorreto() {
+    public void cadastrarComDadosNulos() {
+        db = new DadosBancarios (null, "Conta", "Tipo", 1,
+                            0);
+       
+        Assert.assertEquals(false, dbCon.cadastrarDadosBancarios(db));
+        
+        db = new DadosBancarios ("Agencia", null, "Tipo", 1,
+                            0);
+       
+        Assert.assertEquals(false, dbCon.cadastrarDadosBancarios(db));
+        
+        
+        db = new DadosBancarios ("Agencia", "Conta", null, 1,
+                            0);
+       
+        Assert.assertEquals(false, dbCon.cadastrarDadosBancarios(db));
+        
+        
+        db = new DadosBancarios (null, null, null, 1,
+                            0);
+       
+        Assert.assertEquals(false, dbCon.cadastrarDadosBancarios(db));
+    }
+    
+     @Test
+    public void cadastrarComDadosVazios() {
+        db = new DadosBancarios ("", "Conta", "Tipo", 1,
+                            0);
+       
+        Assert.assertEquals(false, dbCon.cadastrarDadosBancarios(db));
+        
+        
+        db = new DadosBancarios ("Agencia", "", "Tipo", 1,
+                            0);
+       
+        Assert.assertEquals(false, dbCon.cadastrarDadosBancarios(db));
+        
+        
         db = new DadosBancarios ("Agencia", "Conta", "", 1,
+                            0);
+       
+        Assert.assertEquals(false, dbCon.cadastrarDadosBancarios(db));
+        
+        
+        db = new DadosBancarios ("", "", "", 1,
+                            0);
+       
+        Assert.assertEquals(false, dbCon.cadastrarDadosBancarios(db));
+    }
+    
+    
+    @Test
+    public void cadastrarCarteiraCorreta() {
+        db = new DadosBancarios ("Agencia", "Conta", "Tipo", 1,
+                            0);
+        
+        Assert.assertEquals(true, dbCon.cadastrarDadosBancarios(db));
+        
+        
+        db = new DadosBancarios ("Agencia", "Conta", "Tipo", 1000,
+                            0);
+        
+        Assert.assertEquals(true, dbCon.cadastrarDadosBancarios(db));
+    }
+    
+    @Test
+    public void cadastrarCarteiraIncorreta() {
+        db = new DadosBancarios ("Agencia", "Conta", "Tipo", 0,
+                            0);
+        
+        Assert.assertEquals(false, dbCon.cadastrarDadosBancarios(db));
+        
+        
+        db = new DadosBancarios ("Agencia", "Conta", "Tipo", -10,
                             0);
         
         Assert.assertEquals(false, dbCon.cadastrarDadosBancarios(db));
     }
-    
+  
 }

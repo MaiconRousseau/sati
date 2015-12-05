@@ -87,14 +87,13 @@ public class Util {
             int idEdicao = rs.getInt(1);
             Date dataInicio = rs.getDate(2);
             Date dataFim = rs.getDate(3);
-            Date dataVencimentoInscricao = rs.getDate(4);
-            boolean agendaDefinida = rs.getBoolean(5);
-            String titulo = rs.getString(6);
-            String tema = rs.getString(7);
-            int idDadosBancarios = rs.getInt(8);
+            boolean agendaDefinida = rs.getBoolean(4);
+            String titulo = rs.getString(5);
+            String tema = rs.getString(6);
+            int idDadosBancarios = rs.getInt(7);
             
             DadosBancarios dadosBancarios = Util.getDadosBancarios(idDadosBancarios); // Tem que criar o buscas Dados Bancários
-    
+            
             edicao = new Edicao (dataInicio, dataFim, 
                     agendaDefinida, titulo, tema,
                     dadosBancarios, idEdicao);
@@ -108,13 +107,13 @@ public class Util {
             edicao.setMessage(e.getMessage());
             
             System.out.println(edicao.getMessage());
-            
+            System.out.println("aqui é?");
             return null;
         }
     }
 
     private static DadosBancarios getDadosBancarios(int idDadosBancarios) {
-        
+        System.out.println("?");
         DadosBancariosController dbM = new DadosBancariosController();
         DadosBancarios db = new DadosBancarios();
         db.setIdDadosBancarios(idDadosBancarios);
@@ -122,7 +121,7 @@ public class Util {
         ArrayList<DadosBancarios> newList = dbM.buscarDadosBancarios(db, "ID");
         
         db = (newList == null || newList.isEmpty())? null: newList.get(0);
-        
+        System.out.println("");
         return db;
     }
 
