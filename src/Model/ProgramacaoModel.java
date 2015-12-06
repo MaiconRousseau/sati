@@ -25,7 +25,6 @@ import valueObject.Programacao;
  * @author jao
  */
 public class ProgramacaoModel {
-    
     public boolean  cadastrarProgramacao(Programacao prog){
         try {
             MySQLConnector mCon = new MySQLConnector();
@@ -70,13 +69,12 @@ public class ProgramacaoModel {
             }
             
             mCon.disconnect();
-            
+            return !prog.isError();
         } catch (Exception e) {
            prog.setError(true);
            prog.setMessage("Falha ao Cadastrar Programacao\n\t"+ e.getMessage());
-     
+           return !prog.isError();
         }
-        return !prog.isError();
    
     }
     public boolean alterarProgramacao(Programacao prog){
@@ -201,64 +199,25 @@ public class ProgramacaoModel {
             // Connect with database
             MySQLConnector mCon = new MySQLConnector();
             Connection con = mCon.connect();
-            int cont = 0;
-            
-            String query ="UPDATE Edicao SET "
-                            + "idEdicao = 0 "
-                    + "WHERE idEdicao = ?";
-            
+            int status;
             PreparedStatement stm;
-            stm = con.prepareStatement(query);
-            
-            stm.setInt(1, programacao.getEdicao().getIdEdicao());
-            
-            // Confere se alguma linha do BD foi modificada
-            int status = stm.executeUpdate();
-            
-            if(status == 1) {
-                cont++;
-            }
-            else {
-                programacao.setMessage("Falha ao Excluir!");
-                mCon.disconnect();
-                return !programacao.isError();
-            }
-            
-            String query1 ="UPDATE Pessoa SET "
-                            + "idPessoa = 0 "
-                            + "WHERE idPessoa = ?";
-            
-            stm.clearBatch();
-            stm = con.prepareStatement(query1);
-            
-            stm.setInt(1, programacao.getPessoa().getIdPessoa());
-            
-            status = stm.executeUpdate();
-          
-            if(status == 1) {
-                cont++;
-                
-            }
-            else {
-                programacao.setMessage("Falha ao Excluir!");
-                mCon.disconnect();
-                return !programacao.isError();
-            }
             
             String query2 = "DELETE FROM Programacao where idProgramacao = ?";
-            stm.clearBatch();
+            
             stm = con.prepareStatement(query2);
             stm.setInt(1,programacao.getIdProgramacao());
             
             status = stm.executeUpdate();
-            
-            if((status == 1) && (cont == 2)) {
+           
+            if(status == 1) {
                 programacao.setError(false);
                 programacao.setMessage("Excluido com Sucesso!");
+                
                 return !programacao.isError();
             }
             else {
                 programacao.setMessage("Falha ao Excluir!");
+                 
             }
             
             mCon.disconnect();

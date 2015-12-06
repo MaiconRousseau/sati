@@ -123,4 +123,8 @@ public class ProgramacaoController {
         return newList;
         
     }
+    public boolean excluirProgramacao(Programacao prog){
+        
+        return progM.excluirProgramacao(prog);
+    }
 }

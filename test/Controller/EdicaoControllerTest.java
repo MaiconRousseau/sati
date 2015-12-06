@@ -79,10 +79,11 @@ public class EdicaoControllerTest {
         
         Date dataInicio, dataFim;
         
-        calendar.set(2015, 11, 15);
+        calendar.set(2011, 11, 11);
         dataInicio = calendar.getTime();
-        calendar.set(2015, 11, 14);
+        calendar.set(2011, 11, 10);
         dataFim = calendar.getTime();
+
         
         this.edicao = new Edicao (dataInicio, dataFim,  
                 false, "Titulo","Tema",
@@ -106,48 +107,49 @@ public class EdicaoControllerTest {
     
     @Test
     public void testCadastrarEdicaoMesmoAno() {
-        // cadastra um evento no mesmo ano
+        Date dataInicio, dataFim;
+        
+        calendar.set(2015, 11, 11);
+        dataInicio = calendar.getTime();
+        calendar.set(2015, 11, 25);
+        dataFim = calendar.getTime();
+        
+        this.edicao = new Edicao (dataInicio, dataFim,  
+                false, "Titulo","Tema",
+                new DadosBancarios(), -1);
+        
         Assert.assertEquals(true, eCon.cadastrarEdicao(edicao));
-        Assert.assertEquals(false, eCon.cadastrarEdicao(edicao));
+        
+        calendar.set(2015, 5, 14);
+        dataInicio = calendar.getTime();
+        calendar.set(2015, 11, 25);
+        dataFim = calendar.getTime();
+        
+        Edicao edicaoMesmoAno = new Edicao (dataInicio, dataFim,  
+                false, "Titulo","Tema",
+                new DadosBancarios(), -1);
+        
+        Assert.assertEquals(false, eCon.cadastrarEdicao(edicaoMesmoAno));
         eCon.excluirEdicao(edicao, "ALL");
     }
     
-    @Test
-    public void testDataVencimentoDeIncricoesAntesDataInicio(){
-        
-        Date dataInicio, dataVencimento, dataFim;
-        
-        calendar.set(2015, 11, 14);
-        dataInicio = calendar.getTime();
-        calendar.set(2015, 11, 15);
-        dataVencimento = calendar.getTime();
-        
-        calendar.set(2016, month, date);
-        dataFim = calendar.getTime();
-        
-        this.edicao = new Edicao (dataInicio, dataFim, 
-                false, "Titulo","Tema",
-                new DadosBancarios(), -1);
-        
-        Assert.assertEquals(false, eCon.cadastrarEdicao(edicao));
-        
-        calendar.set(2015, 11, 15);
-        dataInicio = calendar.getTime();
-        calendar.set(2015, 11, 14);
-        dataVencimento = calendar.getTime();
-        
-        this.edicao = new Edicao (dataInicio, dataFim, 
-                false, "Titulo","Tema",
-                new DadosBancarios(), -1);
-        
-        Assert.assertEquals(true, eCon.cadastrarEdicao(edicao));
-        
-        eCon.excluirEdicao(new Edicao(), "ALL");
-    } 
-    
+   
     
     @Test
     public void testCadastrarEdicaoDadosCorretos1() {
+        
+        Date dataInicio, dataFim;
+        
+        calendar.set(2011, 11, 9);
+        dataInicio = calendar.getTime();
+        calendar.set(2011, 11, 10);
+        dataFim = calendar.getTime();
+
+        
+        this.edicao = new Edicao (dataInicio, dataFim,  
+                false, "Titulo","Tema",
+                new DadosBancarios(), -1);
+        
         edicao.setError(false);
         Assert.assertEquals(true, eCon.cadastrarEdicao(edicao));
         eCon.excluirEdicao(edicao, "ALL");

@@ -187,7 +187,7 @@ public class ProgramacaoControllerTest {
                             0);
         dbCon.cadastrarDadosBancarios(db);
         
-        this.edicao = new Edicao (inicio, fim, vencimento, 
+        this.edicao = new Edicao (inicio, fim, 
                 false, "Titulo2","Tema2",db, -1);
                 eCon.excluirEdicao(edicao,"ALL");
                 eCon.cadastrarEdicao(edicao);
